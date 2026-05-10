@@ -1,8 +1,7 @@
 package TableTennis.servlet;
 
-import TableTennis.model.MatchScoreModel;
+import TableTennis.dto.MatchScoreModel;
 import TableTennis.model.OngoingMatch;
-import TableTennis.model.TaiBreak;
 import TableTennis.service.OngoingMatchesService;
 import TableTennis.utils.JspHelper;
 import jakarta.servlet.ServletConfig;
@@ -32,14 +31,14 @@ public class MatchScoreServlet extends HttpServlet {
 
         OngoingMatch match = ongoingMatchesService.getById(UUID.fromString(param));
         MatchScoreModel matchScoreModel = new MatchScoreModel(
-                match.getPlayer1().getName()
+                match.getFirstPlayer().getName()
                 , match.getPlayer2().getName()
-                , match.getPlayer1Points().getScore()
-                , match.getPlayer2Points().getScore()
-                , match.getPlayer1Games()
-                , match.getPlayer2Games()
+                , match.getFirstPlayerPoints().getScore()
+                , match.getSecondPlayerPoints().getScore()
+                , match.getFirstPlayerGames()
+                , match.getSecondPlayerGames()
                 , match.getPlayer1Sets()
-                , match.getPlayer2Sets());
+                , match.getSecondPlayerSets());
         req.setAttribute("match2",match);
         req.setAttribute("match", matchScoreModel);
         req.setAttribute("uuid", param);

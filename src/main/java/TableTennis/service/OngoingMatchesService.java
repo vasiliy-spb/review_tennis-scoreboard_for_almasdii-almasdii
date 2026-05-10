@@ -1,12 +1,11 @@
 package TableTennis.service;
 
-import TableTennis.dao.MatchDao;
 import TableTennis.dao.PlayerDao;
 import TableTennis.dto.MatchRequest;
 import TableTennis.model.OngoingMatch;
 import TableTennis.entity.Match;
 import TableTennis.entity.Player;
-import TableTennis.model.Points;
+import TableTennis.model.Point;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,10 +36,10 @@ public class OngoingMatchesService {
         System.out.println(player2);
 
         OngoingMatch match = OngoingMatch.builder()
-                .player1(player1)
+                .firstPlayer(player1)
                 .player2(player2)
-                .player1Points(Points.LOVE)
-                .player2Points(Points.LOVE)
+                .firstPlayerPoints(Point.LOVE)
+                .secondPlayerPoints(Point.LOVE)
                 .build();
         UUID uuid = UUID.randomUUID();
         currentMatches.put(uuid,match);
@@ -56,7 +55,7 @@ public class OngoingMatchesService {
 
         if(match.isFinished()){
             Match match1 = Match.builder()
-                    .firstPlayerId(match.getPlayer1().getId())
+                    .firstPlayerId(match.getFirstPlayer().getId())
                     .secondPlayerId(match.getPlayer2().getId())
                     .winnerId(match.getWinner().getId()).build();
             finishedMatchesPersistenceService.save(match1);

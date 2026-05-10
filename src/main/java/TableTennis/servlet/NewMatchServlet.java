@@ -1,7 +1,6 @@
 package TableTennis.servlet;
 
 import TableTennis.dto.MatchRequest;
-import TableTennis.service.NewMatchService;
 import TableTennis.service.OngoingMatchesService;
 import TableTennis.utils.JspHelper;
 import jakarta.servlet.ServletConfig;

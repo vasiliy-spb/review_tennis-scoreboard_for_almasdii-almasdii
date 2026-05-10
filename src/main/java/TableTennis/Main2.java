@@ -1,6 +1,6 @@
 //package TableTennis;
 //
-//import TableTennis.model.MatchScoreModel;
+//import TableTennis.dto.MatchScoreModel;
 //
 //public class Main2 {
 //    public static void main(String[] args) {

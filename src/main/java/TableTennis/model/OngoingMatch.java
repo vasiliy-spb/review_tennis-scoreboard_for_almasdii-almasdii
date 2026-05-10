@@ -1,38 +1,36 @@
 package TableTennis.model;
 
 import TableTennis.entity.Player;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@EqualsAndHashCode
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class OngoingMatch {
 
-    private Player player1;
-    private Player player2;
+    private Player firstPlayer;
+    private Player secondPlayer;
 
     @Builder.Default
     private boolean advantagePlayer1 = false;
     @Builder.Default
     private boolean advantagePlayer2 = false;
 
-    private int player1Sets;
-    private int player2Sets;
+    private int firstPlayerSets;
+    private int secondPlayerSets;
 
-    private int player1Games;
-    private int player2Games;
+
+    private int firstPlayerGames;
+    private int secondPlayerGames;
     @Builder.Default
-    private Points player1Points = Points.LOVE;
+    private Point firstPlayerPoints = Point.LOVE;
     @Builder.Default
-    private Points player2Points = Points.LOVE;
+    private Point secondPlayerPoints = Point.LOVE;
 
     private Player winner;
     public boolean isFinished(){
         return winner != null;
     }
-    private TaiBreak taiBreak;
 }

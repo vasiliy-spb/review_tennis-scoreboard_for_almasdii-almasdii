@@ -1,4 +1,4 @@
-package TableTennis.model;
+package TableTennis.dto;
 
 public record MatchScoreModel(
         String firstPlayerName,
