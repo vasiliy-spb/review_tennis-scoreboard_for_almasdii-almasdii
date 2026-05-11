@@ -4,13 +4,9 @@ import TableTennis.dao.MatchDao;
 import TableTennis.dao.PlayerDao;
 import TableTennis.dto.MatchResponse;
 import TableTennis.dto.MatchView;
-import TableTennis.entity.Match;
-import TableTennis.entity.Player;
+import TableTennis.entity.MatchEntity;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class FinishedMatchesPersistenceService {
     private final MatchDao matchDao;
@@ -21,7 +17,7 @@ public class FinishedMatchesPersistenceService {
         this.playerDao = playerDao;
     }
 
-    public void save(Match match1) {
+    public void save(MatchEntity match1) {
         matchDao.save(match1);
     }
 

@@ -2,63 +2,71 @@ package TableTennis.service;
 
 import TableTennis.dao.PlayerDao;
 import TableTennis.dto.MatchRequest;
-import TableTennis.model.OngoingMatch;
-import TableTennis.entity.Match;
+import TableTennis.entity.MatchEntity;
+import TableTennis.model.Match;
 import TableTennis.entity.Player;
-import TableTennis.model.Point;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class OngoingMatchesService {
     private final PlayerDao playerDao;
-    private final Map<UUID, OngoingMatch> currentMatches;
-    private final MatchScoreCalculationService calculationService;
+    private final Map<UUID, Match> currentMatches;
     private final FinishedMatchesPersistenceService finishedMatchesPersistenceService;
+
     public OngoingMatchesService(PlayerDao playerDao
-            , MatchScoreCalculationService calculationService
             , FinishedMatchesPersistenceService finishedMatchesPersistenceService){
         this.playerDao = playerDao;
-        this.calculationService = calculationService;
         this.finishedMatchesPersistenceService = finishedMatchesPersistenceService;
-        currentMatches = new HashMap<>();
+        currentMatches = new ConcurrentHashMap<>();
     }
 
-    public UUID save(MatchRequest request1) {
-        Player player1 = playerDao.findByName(request1.firstPlayerName())
+    public UUID createMatch(MatchRequest request) {
+        Player firstPlayer = playerDao.findByName(request.firstPlayerName())
                 .orElseGet(
-                        () -> playerDao.save(new Player(request1.firstPlayerName())));
-        Player player2 = playerDao.findByName(request1.secondPlayerName())
-                .orElseGet(
-                        () -> playerDao.save(new Player(request1.secondPlayerName())));
-        System.out.println(player1);
-        System.out.println(player2);
+                        () -> playerDao.save(new Player(request.firstPlayerName())));
 
-        OngoingMatch match = OngoingMatch.builder()
-                .firstPlayer(player1)
-                .player2(player2)
-                .firstPlayerPoints(Point.LOVE)
-                .secondPlayerPoints(Point.LOVE)
-                .build();
+        Player secondPlayer = playerDao.findByName(request.secondPlayerName())
+                .orElseGet(
+                        () -> playerDao.save(new Player(request.secondPlayerName())));
+
+        System.out.println(firstPlayer);
+        System.out.println(secondPlayer);
+
+
         UUID uuid = UUID.randomUUID();
+        Match match = new Match(uuid,firstPlayer,secondPlayer);
+
         currentMatches.put(uuid,match);
+
         return uuid;
     }
-    public OngoingMatch getById(UUID uuid){
+    public Match getById(UUID uuid){
         return currentMatches.get(uuid);
+    }
+    public Optional<Player> getPlayerByName(String playerName){
+        return playerDao.findByName(playerName);
     }
 
     public void wonPoint(UUID matchId, String playerName) {
-        OngoingMatch match = getById(matchId);
-        calculationService.won(match,playerName);
+        Player player = getPlayerByName(playerName).orElseThrow();
+        Match match = getById(matchId);
+        boolean isMatchEnd = match.pointWonBy(player);
 
-        if(match.isFinished()){
-            Match match1 = Match.builder()
-                    .firstPlayerId(match.getFirstPlayer().getId())
-                    .secondPlayerId(match.getPlayer2().getId())
-                    .winnerId(match.getWinner().getId()).build();
-            finishedMatchesPersistenceService.save(match1);
+        if(isMatchEnd){
+            MatchEntity matchEntity = new MatchEntity(match.getFirstPlayer().getId()
+                    ,match.getSecondPlayer().getId()
+                    ,match.getWinner().getId());
+
+            finishedMatchesPersistenceService.save(matchEntity);
+            currentMatches.remove(matchId);
         }
     }
 }
+
+
+//теперь как работать с Ongoing match с помощью M
+// atch мы будем получать все set games points??? и делат
+// новый Ongoing match для отоброжения получается??

@@ -4,7 +4,6 @@ import TableTennis.dao.MatchDao;
 import TableTennis.dao.PlayerDao;
 import TableTennis.entity.Player;
 import TableTennis.service.FinishedMatchesPersistenceService;
-import TableTennis.service.MatchScoreCalculationService;
 import TableTennis.service.OngoingMatchesService;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
@@ -26,15 +25,12 @@ public class AppListener implements ServletContextListener {
         MatchDao matchDao = new MatchDao(sessionFactory);
         FinishedMatchesPersistenceService finishedMatchesPersistenceService =
                 new FinishedMatchesPersistenceService(matchDao,playerDao);
-        MatchScoreCalculationService matchScoreCalculationService =
-                new MatchScoreCalculationService();
+
         OngoingMatchesService ongoingMatchesService = new OngoingMatchesService(
                 playerDao,
-                matchScoreCalculationService,
                 finishedMatchesPersistenceService);
         sce.getServletContext().setAttribute("OngoingMatchesService", ongoingMatchesService);
         sce.getServletContext().setAttribute("FinishedMatchesPersistenceService", finishedMatchesPersistenceService);
-        sce.getServletContext().setAttribute("MatchScoreCalculationService", matchScoreCalculationService);
 
     }
 

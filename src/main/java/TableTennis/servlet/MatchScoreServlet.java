@@ -1,6 +1,8 @@
 package TableTennis.servlet;
 
 import TableTennis.dto.MatchScoreModel;
+import TableTennis.mapper.MatchScoreMapper;
+import TableTennis.model.Match;
 import TableTennis.model.OngoingMatch;
 import TableTennis.service.OngoingMatchesService;
 import TableTennis.utils.JspHelper;
@@ -29,18 +31,11 @@ public class MatchScoreServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String param = req.getParameter("uuid");
 
-        OngoingMatch match = ongoingMatchesService.getById(UUID.fromString(param));
-        MatchScoreModel matchScoreModel = new MatchScoreModel(
-                match.getFirstPlayer().getName()
-                , match.getPlayer2().getName()
-                , match.getFirstPlayerPoints().getScore()
-                , match.getSecondPlayerPoints().getScore()
-                , match.getFirstPlayerGames()
-                , match.getSecondPlayerGames()
-                , match.getPlayer1Sets()
-                , match.getSecondPlayerSets());
-        req.setAttribute("match2",match);
+        Match match = ongoingMatchesService.getById(UUID.fromString(param));
+        MatchScoreMapper matchScoreMapper = new MatchScoreMapper();
+        MatchScoreModel matchScoreModel = matchScoreMapper.mapFrom(match);
         req.setAttribute("match", matchScoreModel);
+        req.setAttribute("matchModel",match);
         req.setAttribute("uuid", param);
         try {
             if(match.isFinished()){

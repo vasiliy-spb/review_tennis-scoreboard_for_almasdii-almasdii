@@ -1,10 +1,12 @@
 package TableTennis.model;
 
+import lombok.Getter;
+
 public class TennisSet {
-    private int firstPlayerGames;
-    private int secondPlayerGames;
+    @Getter private int firstPlayerGames;
+    @Getter private int secondPlayerGames;
     private Game game;
-    private TieBreak taiBreak;
+    private TieBreak tieBreak;
     public static final int WIN_SCORE = 6;
     public static final int TAI_BREAK_WIN_SCORE = 7;
     public static final int WIN_DIFF = 2;
@@ -13,10 +15,10 @@ public class TennisSet {
     }
     protected boolean pointWonBy(PlayerNumber playerNumber){
         if(firstPlayerGames == WIN_SCORE && secondPlayerGames == WIN_SCORE){
-            if(taiBreak == null){
-                taiBreak = new TieBreak();
+            if(tieBreak == null){
+                tieBreak = new TieBreak();
             }
-            boolean isFinished = taiBreak.pointWonBy(playerNumber);
+            boolean isFinished = tieBreak.pointWonBy(playerNumber);
             if (isFinished){
                 if(playerNumber == PlayerNumber.FIRST_PLAYER){
                     firstPlayerGames++;
@@ -49,6 +51,21 @@ public class TennisSet {
 
         return (firstPlayerGames >= WIN_SCORE || secondPlayerGames >= WIN_SCORE)
                 && Math.abs(firstPlayerGames - secondPlayerGames) >= WIN_DIFF;
+    }
+    public Point getFirstPlayerPoints(){
+        return game.getFirstPlayerPoint();
+    }
+    public Point getSecondPlayerPoints(){
+        return game.getSecondPlayerPoint();
+    }
+    public int firstPlayerTieBreakScore(){
+        return tieBreak.getFirstPlayerScore();
+    }
+    public int secondPlayerTieBreakScore(){
+        return tieBreak.getSecondPlayerScore();
+    }
+    public boolean isTieBreakStarted(){
+        return tieBreak != null;
     }
 
 }

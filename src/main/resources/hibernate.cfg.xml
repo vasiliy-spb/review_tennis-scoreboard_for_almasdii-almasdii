@@ -20,7 +20,7 @@
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
 
-    <mapping class="TableTennis.entity.Match"/>
+    <mapping class="TableTennis.entity.MatchEntity"/>
     <mapping class="TableTennis.entity.Player"/>
 
   </session-factory>

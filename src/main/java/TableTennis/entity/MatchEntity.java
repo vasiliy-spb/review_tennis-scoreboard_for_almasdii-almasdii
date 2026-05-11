@@ -7,12 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 @Table(name = "matches")
 @Entity
-public class Match {
+@NoArgsConstructor
+@AllArgsConstructor
+public class MatchEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -22,6 +22,12 @@ public class Match {
     private int secondPlayerId;
     @Column(name = "winner")
     private int winnerId;
+    public MatchEntity(int firstPlayerId,int secondPlayerId,int winnerId){
+        this.firstPlayerId = firstPlayerId;
+        this.secondPlayerId = secondPlayerId;
+        this.winnerId = winnerId;
+    }
+
 }
 
 

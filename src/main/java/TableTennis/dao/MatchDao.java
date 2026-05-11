@@ -1,17 +1,15 @@
 package TableTennis.dao;
 
 import TableTennis.dto.MatchView;
-import TableTennis.entity.Match;
-import TableTennis.entity.Player;
+import TableTennis.entity.MatchEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-public class MatchDao implements Dao<Match> {
+public class MatchDao implements Dao<MatchEntity> {
     private final SessionFactory sessionFactory;
 
     public MatchDao(SessionFactory sessionFactory) {
@@ -20,7 +18,7 @@ public class MatchDao implements Dao<Match> {
 
 
     @Override
-    public List<Match> findAll() {
+    public List<MatchEntity> findAll() {
         return null;
     }
 
@@ -32,7 +30,7 @@ public class MatchDao implements Dao<Match> {
                             p2.name,
                             w.name
                         )
-                        FROM Match m
+                        FROM MatchEntity m
                         JOIN Player p1 ON p1.id = m.firstPlayerId
                         JOIN Player p2 ON p2.id = m.secondPlayerId
                         JOIN Player w  ON w.id  = m.winnerId
@@ -43,7 +41,7 @@ public class MatchDao implements Dao<Match> {
     }
 
     @Override
-    public Match save(Match match) {
+    public MatchEntity save(MatchEntity match) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.getTransaction();
             transaction.begin();
@@ -55,10 +53,10 @@ public class MatchDao implements Dao<Match> {
 
 
     @Override
-    public Optional<Match> findById(int id) {
+    public Optional<MatchEntity> findById(int id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            Optional<Match> match = Optional.ofNullable(session.get(Match.class, String.valueOf(id)));
+            Optional<MatchEntity> match = Optional.ofNullable(session.get(MatchEntity.class, String.valueOf(id)));
             session.getTransaction().commit();
             return match;
         }

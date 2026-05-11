@@ -1,4 +1,3 @@
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -39,84 +38,65 @@
         <h1>Current match</h1>
         <div class="current-match-image"></div>
         <section class="score">
-                <c:choose>
-                    <c:when test="${requestScope.match2.getTaiBreak() != null}">
-                        <table class="table">
-                            <thead class="result">
-                            <tr>
-                                <th class="table-text">Player</th>
-                                <th class="table-text">tieBreak</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="player1">
-                                <td class="table-text">${requestScope.match.firstPlayerName()}</td>
-                                <td class="table-text">${requestScope.match2.getTaiBreak().getScore1()}</td>
-                                <td class="table-text">
-                                    <form method="post" action="${pageContext.request.contextPath}/match-score?uuid=${requestScope.uuid}">
-                                        <input type="hidden" name="player_name" value="${requestScope.match.firstPlayerName()}">
-                                        <button type="submit">Score</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr class="player2">
-                                <td class="table-text">${requestScope.match.secondPlayerName()}</td>
-                                <td class="table-text">${requestScope.match2.getTaiBreak().getScore2()}</td>
-                                <td class="table-text" >
-                                    <form method="post" action="${pageContext.request.contextPath}/match-score?uuid=${requestScope.uuid}">
-                                        <input type="hidden" name="player_name" value="${requestScope.match.secondPlayerName()}">
-                                        <button type="submit">Score</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </c:when>
-                    <c:otherwise>
-                        <table class="table">
-                            <thead class="result">
-                            <tr>
-                                <th class="table-text">Player</th>
-                                <th class="table-text">Sets</th>
-                                <th class="table-text">Games</th>
-                                <th class="table-text">Points</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="player1">
-                                <td class="table-text">${requestScope.match.firstPlayerName()}</td>
-                                <td class="table-text">${requestScope.match.sets1()}</td>
-                                <td class="table-text">${requestScope.match.games1()}</td>
-                                <td class="table-text">${requestScope.match.point1()}</td>
-                                <td class="table-text">
-                                    <form method="post" action="${pageContext.request.contextPath}/match-score?uuid=${requestScope.uuid}">
-                                        <input type="hidden" name="player_name" value="${requestScope.match.firstPlayerName()}">
-                                        <button type="submit">Score</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr class="player2">
-                                <td class="table-text">${requestScope.match.secondPlayerName()}</td>
-                                <td class="table-text">${requestScope.match.sets2()}</td>
-                                <td class="table-text">${requestScope.match.games2()}</td>
-                                <td class="table-text">${requestScope.match.point2()}</td>
-                                <td class="table-text" >
-                                    <form method="post" action="${pageContext.request.contextPath}/match-score?uuid=${requestScope.uuid}">
-                                        <input type="hidden" name="player_name" value="${requestScope.match.secondPlayerName()}">
-                                        <button type="submit">Score</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </c:otherwise>
-                </c:choose>
+            <table class="table">
+                <thead class="result">
+                <tr>
+                    <th class="table-text">Player</th>
+                    <th class="table-text">Sets</th>
+                    <th class="table-text">Games</th>
+                    <th class="table-text">Points</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="player1">
+                    <td class="table-text">${requestScope.match.firstPlayerName()}</td>
+                    <td class="table-text">${requestScope.match.sets1()}</td>
+                    <td class="table-text">${requestScope.match.games1()}</td>
+                    <c:choose>
+                        <c:when test="${requestScope.matchModel.isTieBreakStarted()}">
+                            <td class="table-text">${requestScope.matchModel.firstPlayerTieBreakScore()}</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td class="table-text">${requestScope.match.point1()}</td>
+                        </c:otherwise>
+                    </c:choose>
+                    <td class="table-text">
+                        <form method="post"
+                              action="${pageContext.request.contextPath}/match-score?uuid=${requestScope.uuid}">
+                            <input type="hidden" name="player_name" value="${requestScope.match.firstPlayerName()}">
+                            <button type="submit">Score</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr class="player2">
+                    <td class="table-text">${requestScope.match.secondPlayerName()}</td>
+                    <td class="table-text">${requestScope.match.sets2()}</td>
+                    <td class="table-text">${requestScope.match.games2()}</td>
+                    <c:choose>
+                        <c:when test="${requestScope.matchModel.isTieBreakStarted()}">
+                            <td class="table-text">${requestScope.matchModel.secondPlayerTieBreakScore()}</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td class="table-text">${requestScope.match.point2()}</td>
+                        </c:otherwise>
+                    </c:choose>
+                    <td class="table-text">
+                        <form method="post"
+                              action="${pageContext.request.contextPath}/match-score?uuid=${requestScope.uuid}">
+                            <input type="hidden" name="player_name" value="${requestScope.match.secondPlayerName()}">
+                            <button type="submit">Score</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </section>
     </div>
 </main>
 <footer>
     <div class="footer">
-        <p>&copy; Tennis Scoreboard, project from <a href="https://zhukovsd.github.io/java-backend-learning-course/">zhukovsd/java-backend-learning-course</a> roadmap.</p>
+        <p>&copy; Tennis Scoreboard, project from <a href="https://zhukovsd.github.io/java-backend-learning-course/">zhukovsd/java-backend-learning-course</a>
+            roadmap.</p>
     </div>
 </footer>
 </body>

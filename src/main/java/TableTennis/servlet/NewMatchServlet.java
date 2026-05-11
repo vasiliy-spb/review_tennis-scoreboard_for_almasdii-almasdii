@@ -35,8 +35,8 @@ public class NewMatchServlet extends HttpServlet {
         System.out.println(secondPlayer);
         // if ok
 
-        MatchRequest request1 = new MatchRequest(firstPlayer,secondPlayer);
-        UUID uuid = service.save(request1);
+        MatchRequest matchRequest = new MatchRequest(firstPlayer,secondPlayer);
+        UUID uuid = service.createMatch(matchRequest);
 
         response.sendRedirect("/match-score?uuid="+uuid);
     }

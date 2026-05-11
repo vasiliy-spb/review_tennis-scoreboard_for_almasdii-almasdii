@@ -3,9 +3,11 @@ package TableTennis.model;
 import TableTennis.entity.Player;
 import lombok.Getter;
 
+import java.util.UUID;
+
 @Getter
 public class Match {
-    @Getter private int id;
+    @Getter private UUID id;
     @Getter private final Player firstPlayer;
     @Getter private final Player secondPlayer;
     @Getter private Player winner;
@@ -16,7 +18,7 @@ public class Match {
 
 
 
-    public Match(int id,Player firstPlayer, Player secondPlayer){
+    public Match(UUID id,Player firstPlayer, Player secondPlayer){
         this.id = id;
         this.firstPlayer = firstPlayer;
         this.secondPlayer = secondPlayer;
@@ -47,7 +49,27 @@ public class Match {
         if(winner != null) return true;
         return false;
     }
-
+    public int getFirstPlayerGames(){
+        return currentSet.getFirstPlayerGames();
+    }
+    public int getSecondPlayerGames(){
+        return currentSet.getSecondPlayerGames();
+    }
+    public int getFirstPlayerPoints(){
+        return currentSet.getFirstPlayerPoints().getScore();
+    }
+    public int getSecondPlayerPoints(){
+        return currentSet.getSecondPlayerPoints().getScore();
+    }
+    public int firstPlayerTieBreakScore(){
+        return currentSet.firstPlayerTieBreakScore();
+    }
+    public int secondPlayerTieBreakScore(){
+        return currentSet.secondPlayerTieBreakScore();
+    }
+    public boolean isTieBreakStarted(){
+        return currentSet.isTieBreakStarted();
+    }
 
 
 }
