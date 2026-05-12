@@ -36,6 +36,5 @@ public class Game {
             secondPlayerPoint = secondPlayerPoint.next();
         }
         return false;
-
     }
 }

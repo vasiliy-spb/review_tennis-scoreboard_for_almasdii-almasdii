@@ -26,12 +26,15 @@ public class Match {
     }
 
     public boolean pointWonBy(Player player){
+        if(isFinished()){
+            throw new IllegalStateException("Match is already finished");
+        }
+        if(!player.equals(firstPlayer) && !player.equals(secondPlayer)){
+            throw new IllegalArgumentException("Player is not part of this match");
+        }
         PlayerNumber playerNumber = (player.equals(firstPlayer))
                 ? PlayerNumber.FIRST_PLAYER
                 : PlayerNumber.SECOND_PLAYER;
-        if(isFinished()){
-            return true;
-        }
 
         boolean isSetWon = currentSet.pointWonBy(playerNumber);
         if(isSetWon){

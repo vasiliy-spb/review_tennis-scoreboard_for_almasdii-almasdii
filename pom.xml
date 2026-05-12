@@ -20,6 +20,11 @@
       <artifactId>hibernate-core</artifactId>
       <version>6.4.4.Final</version>
     </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>4.0.0-M1</version>
+    </dependency>
     <!-- Source: https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-52 -->
 
     <!-- Source: https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -43,12 +48,6 @@
     </dependency>
     <!-- Source: https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>6.0.3</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>jakarta.servlet.jsp.jstl</groupId>
       <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
       <version>3.0.1</version>
@@ -69,6 +68,7 @@
       <version>6.0.3</version>
       <scope>test</scope>
     </dependency>
+
     <!-- Source: https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>

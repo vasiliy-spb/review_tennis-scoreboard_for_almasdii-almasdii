@@ -31,9 +31,6 @@ public class NewMatchServlet extends HttpServlet {
         if(firstPlayer == null || secondPlayer == null){
             System.out.println("they Are null");
         }
-        System.out.println(firstPlayer);
-        System.out.println(secondPlayer);
-        // if ok
 
         MatchRequest matchRequest = new MatchRequest(firstPlayer,secondPlayer);
         UUID uuid = service.createMatch(matchRequest);
