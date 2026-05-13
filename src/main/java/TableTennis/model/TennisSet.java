@@ -1,6 +1,5 @@
 package TableTennis.model;
 
-import TableTennis.Exception.TieBreakIsNullException;
 import lombok.Getter;
 
 public class TennisSet {
@@ -46,7 +45,9 @@ public class TennisSet {
                 game = new Game();
             }
         }
-
+        if(tieBreak == null){
+            tieBreak = new TieBreak();
+        }
         return isSetFinished();
     }
 
@@ -64,13 +65,13 @@ public class TennisSet {
     }
     public int firstPlayerTieBreakScore(){
         if(tieBreak == null){
-            throw new TieBreakIsNullException("Tie break not started you cant get Tiebreaks score");
+            throw new IllegalStateException("Tie break not started you cant get Tiebreaks score");
         }
         return tieBreak.getFirstPlayerScore();
     }
     public int secondPlayerTieBreakScore(){
         if(tieBreak == null){
-            throw new TieBreakIsNullException("Tie break not started you cant get Tiebreaks score");
+            throw new IllegalStateException("Tie break not started you cant get Tiebreaks score");
         }
         return tieBreak.getSecondPlayerScore();
     }

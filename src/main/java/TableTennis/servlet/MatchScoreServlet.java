@@ -3,7 +3,6 @@ package TableTennis.servlet;
 import TableTennis.dto.MatchScoreModel;
 import TableTennis.mapper.MatchScoreMapper;
 import TableTennis.model.Match;
-import TableTennis.model.OngoingMatch;
 import TableTennis.service.OngoingMatchesService;
 import TableTennis.utils.JspHelper;
 import jakarta.servlet.ServletConfig;

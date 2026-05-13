@@ -2,10 +2,7 @@ package TableTennis;
 import TableTennis.dto.MatchScoreModel;
 import TableTennis.mapper.MatchScoreMapper;
 import TableTennis.model.Match;
-import TableTennis.model.OngoingMatch;
 import TableTennis.entity.Player;
-import TableTennis.model.Point;
-import TableTennis.service.OngoingMatchesService;
 
 import java.util.Scanner;
 import java.util.UUID;
@@ -13,7 +10,6 @@ import java.util.UUID;
 public class Main {
     public static void main(String[] args) {
 
-        OngoingMatch ongoingMatch = new OngoingMatch();
         Player player1 = new Player("Almas");
         Player player2 = new Player("anonymous");
         UUID uuid = UUID.randomUUID();

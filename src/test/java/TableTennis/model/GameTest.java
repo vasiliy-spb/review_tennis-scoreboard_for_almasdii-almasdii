@@ -8,19 +8,15 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
+@Tag("unit")
 public class GameTest {
     private Game game;
-
-
-    @BeforeAll
-    static void init(){
-
-    }
 
     @BeforeEach
     void newGame(){
         game = new Game();
     }
+
     @Test
     void firstPlayerWinWhenGetScoreFourTimes(){
         assertFalse(game.pointWonBy(PlayerNumber.FIRST_PLAYER));
@@ -30,6 +26,7 @@ public class GameTest {
 
         Assertions.assertThat(game.pointWonBy(PlayerNumber.FIRST_PLAYER)).isTrue();
     }
+
     @Test
     void secondPlayerWinWhenGetScoreFourTimes(){
         assertFalse(game.pointWonBy(PlayerNumber.SECOND_PLAYER));
@@ -37,6 +34,7 @@ public class GameTest {
         assertFalse(game.pointWonBy(PlayerNumber.SECOND_PLAYER));
         assertTrue(game.pointWonBy(PlayerNumber.SECOND_PLAYER));
     }
+
     @Test
     void firstPlayerShouldWinAfterDeuce(){
         assertFalse(game.pointWonBy(PlayerNumber.SECOND_PLAYER));
@@ -47,8 +45,6 @@ public class GameTest {
         assertFalse(game.pointWonBy(PlayerNumber.FIRST_PLAYER));
         assertFalse(game.pointWonBy(PlayerNumber.FIRST_PLAYER));
 
-
-
         assertFalse(game.pointWonBy(PlayerNumber.FIRST_PLAYER));
         assertTrue(game.pointWonBy(PlayerNumber.FIRST_PLAYER));
     }
@@ -57,6 +53,7 @@ public class GameTest {
     void clean(){
 
     }
+
     @AfterAll
     static void dest(){
 
