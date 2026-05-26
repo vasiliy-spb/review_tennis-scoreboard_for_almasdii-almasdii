@@ -3,15 +3,21 @@ package TableTennis.servlet;
 import TableTennis.dto.MatchRequest;
 import TableTennis.service.OngoingMatchesService;
 import TableTennis.utils.JspHelper;
+import TableTennis.utils.ValidatorUtil;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @WebServlet("/new-match")
 public class NewMatchServlet extends HttpServlet {
     private OngoingMatchesService service;
@@ -28,9 +34,19 @@ public class NewMatchServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String firstPlayer = request.getParameter("playerOne");
         String secondPlayer = request.getParameter("playerTwo");
-        if(firstPlayer == null || secondPlayer == null){
-            System.out.println("they Are null");
+
+
+        List<String> errors = ValidatorUtil.isNameCorrect(firstPlayer, secondPlayer);
+
+        if(!errors.isEmpty()){
+            Optional<String> reduce =
+                    errors.stream().reduce((a, b) -> a + "\n" + b);
+            response.sendError(400,reduce.get());
+            log.debug("Error sent : \n{}",reduce.get());
+            return;
         }
+
+        log.debug("first player name : {} , second player name : {}",firstPlayer,secondPlayer);
 
         MatchRequest matchRequest = new MatchRequest(firstPlayer,secondPlayer);
         UUID uuid = service.createMatch(matchRequest);

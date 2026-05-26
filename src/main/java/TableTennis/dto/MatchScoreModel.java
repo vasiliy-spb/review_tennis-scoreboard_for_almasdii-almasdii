@@ -10,5 +10,4 @@ public record MatchScoreModel(
         int sets1,
         int sets2
 ) {
-
 }

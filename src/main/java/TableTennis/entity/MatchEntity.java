@@ -15,14 +15,14 @@ import lombok.*;
 public class MatchEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(name = "player1")
-    private int firstPlayerId;
+    private Long firstPlayerId;
     @Column(name = "player2")
-    private int secondPlayerId;
+    private Long secondPlayerId;
     @Column(name = "winner")
-    private int winnerId;
-    public MatchEntity(int firstPlayerId,int secondPlayerId,int winnerId){
+    private Long winnerId;
+    public MatchEntity(Long firstPlayerId,Long secondPlayerId,Long winnerId){
         this.firstPlayerId = firstPlayerId;
         this.secondPlayerId = secondPlayerId;
         this.winnerId = winnerId;

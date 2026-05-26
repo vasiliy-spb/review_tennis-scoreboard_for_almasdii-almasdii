@@ -5,12 +5,14 @@ import TableTennis.dto.MatchRequest;
 import TableTennis.entity.MatchEntity;
 import TableTennis.model.Match;
 import TableTennis.entity.Player;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public class OngoingMatchesService {
     private final PlayerDao playerDao;
     private final Map<UUID, Match> currentMatches;
@@ -24,6 +26,7 @@ public class OngoingMatchesService {
     }
 
     public UUID createMatch(MatchRequest request) {
+
         Player firstPlayer = playerDao.findByName(request.firstPlayerName())
                 .orElseGet(
                         () -> playerDao.save(new Player(request.firstPlayerName())));
@@ -32,9 +35,7 @@ public class OngoingMatchesService {
                 .orElseGet(
                         () -> playerDao.save(new Player(request.secondPlayerName())));
 
-        System.out.println(firstPlayer);
-        System.out.println(secondPlayer);
-
+        log.debug("first player : {} , second player : {}",firstPlayer,secondPlayer);
 
         UUID uuid = UUID.randomUUID();
         Match match = new Match(uuid,firstPlayer,secondPlayer);
@@ -55,10 +56,14 @@ public class OngoingMatchesService {
         Match match = getById(matchId);
         boolean isMatchEnd = match.pointWonBy(player);
 
+        log.debug("point won player : {} , for match : {} ",player,match);
+
         if(isMatchEnd){
             MatchEntity matchEntity = new MatchEntity(match.getFirstPlayer().getId()
                     ,match.getSecondPlayer().getId()
                     ,match.getWinner().getId());
+
+            log.debug("Match is saving : {}",matchEntity);
 
             finishedMatchesPersistenceService.save(matchEntity);
             currentMatches.remove(matchId);

@@ -11,13 +11,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.UUID;
 
 @WebServlet("/match-score")
+@Slf4j
 public class MatchScoreServlet extends HttpServlet {
     private OngoingMatchesService ongoingMatchesService;
+    private final MatchScoreMapper matchScoreMapper = new MatchScoreMapper();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -31,11 +34,15 @@ public class MatchScoreServlet extends HttpServlet {
         String param = req.getParameter("uuid");
 
         Match match = ongoingMatchesService.getById(UUID.fromString(param));
-        MatchScoreMapper matchScoreMapper = new MatchScoreMapper();
+        log.debug("match from cache map : {}",match);
+
         MatchScoreModel matchScoreModel = matchScoreMapper.mapFrom(match);
         req.setAttribute("match", matchScoreModel);
         req.setAttribute("matchModel",match);
         req.setAttribute("uuid", param);
+
+
+
         try {
             if(match.isFinished()){
                 resp.sendRedirect("matches");

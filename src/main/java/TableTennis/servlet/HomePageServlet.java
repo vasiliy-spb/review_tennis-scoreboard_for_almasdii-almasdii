@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebServlet("/tennis")
 public class HomePageServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp){
         try {
             req.getRequestDispatcher(JspHelper.getPath("index")).forward(req,resp);
         } catch (IOException | ServletException e) {

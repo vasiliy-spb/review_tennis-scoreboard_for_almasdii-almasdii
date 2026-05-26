@@ -15,29 +15,23 @@ import java.util.List;
 
 @WebServlet("/matches")
 public class MatchesServlet extends HttpServlet {
-    private FinishedMatchesPersistenceService finishedMatchesPersistenceService;
+    private FinishedMatchesPersistenceService finishedService;
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        this.finishedMatchesPersistenceService = (FinishedMatchesPersistenceService) getServletContext().getAttribute("FinishedMatchesPersistenceService");
+        this.finishedService = (FinishedMatchesPersistenceService) getServletContext().getAttribute("FinishedMatchesPersistenceService");
 
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp){
         List<MatchResponse> all =
-                finishedMatchesPersistenceService.findAll();
+                finishedService.findAll();
         req.setAttribute("matches",all);
         try {
             req.getRequestDispatcher(JspHelper.getPath("matches")).forward(req,resp);
         } catch (ServletException | IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-
     }
 }

@@ -16,8 +16,7 @@ public class Match {
     private TennisSet currentSet;
     private final static int WIN_SCORE = 2;
 
-
-
+    
     public Match(UUID id,Player firstPlayer, Player secondPlayer){
         this.id = id;
         this.firstPlayer = firstPlayer;
@@ -77,6 +76,4 @@ public class Match {
     public boolean isTieBreakStarted(){
         return currentSet.isTieBreakStarted();
     }
-
-
 }
