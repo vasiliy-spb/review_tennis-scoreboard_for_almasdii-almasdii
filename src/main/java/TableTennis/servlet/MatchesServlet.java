@@ -25,8 +25,19 @@ public class MatchesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp){
+        String playerName = req.getParameter("filter_by_player_name");
+        int pageNumber = Integer.parseInt(req.getParameter("page_number"));
+        if(playerName != null & !playerName.isEmpty()){
+            req.setAttribute("filter_by_player_name",playerName);
+        }
+        if(pageNumber > 0){
+            req.setAttribute("page_number",pageNumber);
+        }
+
         List<MatchResponse> all =
-                finishedService.findAll();
+                finishedService.findAll(pageNumber,playerName);
+
+
         req.setAttribute("matches",all);
         try {
             req.getRequestDispatcher(JspHelper.getPath("matches")).forward(req,resp);

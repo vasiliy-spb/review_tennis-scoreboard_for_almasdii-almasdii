@@ -1,10 +1,13 @@
 package TableTennis.service;
 
-import TableTennis.dao.PlayerDao;
+import TableTennis.Exception.MatchNotFoundException;
 import TableTennis.dto.MatchRequest;
+import TableTennis.dto.MatchScoreModel;
 import TableTennis.entity.MatchEntity;
+import TableTennis.mapper.MatchScoreMapper;
 import TableTennis.model.Match;
 import TableTennis.entity.Player;
+import TableTennis.validator.MatchValidator;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -14,50 +17,50 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class OngoingMatchesService {
-    private final PlayerDao playerDao;
-    private final Map<UUID, Match> currentMatches;
+    private final Map<UUID, Match> currentMatches = new ConcurrentHashMap<>();
     private final FinishedMatchesPersistenceService finishedMatchesPersistenceService;
+    private final MatchValidator validator;
+    private final PlayerService playerService;
+    private final MatchScoreMapper matchScoreMapper = new MatchScoreMapper();
 
-    public OngoingMatchesService(PlayerDao playerDao
-            , FinishedMatchesPersistenceService finishedMatchesPersistenceService){
-        this.playerDao = playerDao;
+    public OngoingMatchesService(FinishedMatchesPersistenceService finishedMatchesPersistenceService
+            ,MatchValidator validator,PlayerService playerService){
         this.finishedMatchesPersistenceService = finishedMatchesPersistenceService;
-        currentMatches = new ConcurrentHashMap<>();
+        this.validator =  validator;
+        this.playerService = playerService;
+
     }
 
     public UUID createMatch(MatchRequest request) {
-
-        Player firstPlayer = playerDao.findByName(request.firstPlayerName())
-                .orElseGet(
-                        () -> playerDao.save(new Player(request.firstPlayerName())));
-
-        Player secondPlayer = playerDao.findByName(request.secondPlayerName())
-                .orElseGet(
-                        () -> playerDao.save(new Player(request.secondPlayerName())));
+        Player firstPlayer = playerService.findByNameOrCreate(request.firstPlayerName());
+        Player secondPlayer = playerService.findByNameOrCreate(request.secondPlayerName());
+        validator.validateNames(firstPlayer.getName(),secondPlayer.getName());
 
         log.debug("first player : {} , second player : {}",firstPlayer,secondPlayer);
-
         UUID uuid = UUID.randomUUID();
         Match match = new Match(uuid,firstPlayer,secondPlayer);
-
         currentMatches.put(uuid,match);
-
         return uuid;
     }
-    public Match getById(UUID uuid){
-        return currentMatches.get(uuid);
-    }
-    public Optional<Player> getPlayerByName(String playerName){
-        return playerDao.findByName(playerName);
+    public Optional<MatchScoreModel> getMatchScoreById(UUID uuid){
+        validator.validateMatchId(uuid);
+        Match match = currentMatches.get(uuid);
+        if(match == null){
+            throw new MatchNotFoundException("Match is not found");
+        }
+        MatchScoreModel matchScoreModel = matchScoreMapper.mapFrom(match);
+        return Optional.ofNullable(matchScoreModel);
     }
 
-    public void wonPoint(UUID matchId, String playerName) {
-        Player player = getPlayerByName(playerName).orElseThrow();
-        Match match = getById(matchId);
+    public boolean wonPoint(UUID matchId, String playerName) {
+        Player player = playerService.findByNameOrCreate(playerName);
+        Match match = currentMatches.get(matchId);
+        if(match == null){
+            throw new MatchNotFoundException("Match is not found");
+        }
+
         boolean isMatchEnd = match.pointWonBy(player);
-
         log.debug("point won player : {} , for match : {} ",player,match);
-
         if(isMatchEnd){
             MatchEntity matchEntity = new MatchEntity(match.getFirstPlayer().getId()
                     ,match.getSecondPlayer().getId()
@@ -68,6 +71,7 @@ public class OngoingMatchesService {
             finishedMatchesPersistenceService.save(matchEntity);
             currentMatches.remove(matchId);
         }
+        return isMatchEnd;
     }
 }
 

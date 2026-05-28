@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -40,6 +41,10 @@
                     <label class="label-player" for="playerTwo">Player two</label>
                     <input class="input-player" placeholder="Name" type="text" required title="Enter a name" id="playerTwo" name="playerTwo">
                     <input class="form-button" type="submit" value="Start">
+                    <br>
+                    <c:if test="${requestScope.error != null}">
+                        <p class="error-message">${requestScope.error}</p>
+                    </c:if>
                 </form>
             </div>
         </div>

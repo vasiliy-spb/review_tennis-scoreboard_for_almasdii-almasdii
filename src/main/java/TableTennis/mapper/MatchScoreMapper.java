@@ -7,6 +7,12 @@ public class MatchScoreMapper implements Mapper<MatchScoreModel,Match>{
 
     @Override
     public MatchScoreModel mapFrom(Match match) {
+        int firstPlayerTieBreakScore = 0;
+        int secondPlayerTieBreakScore = 0;
+        if(match.isTieBreakStarted()){
+            firstPlayerTieBreakScore = match.firstPlayerTieBreakScore();
+            secondPlayerTieBreakScore = match.secondPlayerTieBreakScore();
+        }
         return new MatchScoreModel(
                 match.getFirstPlayer().getName(),
                 match.getSecondPlayer().getName(),
@@ -15,7 +21,10 @@ public class MatchScoreMapper implements Mapper<MatchScoreModel,Match>{
                 match.getFirstPlayerGames(),
                 match.getSecondPlayerGames(),
                 match.getFirstPlayerSets(),
-                match.getSecondPlayerSets()
+                match.getSecondPlayerSets(),
+                match.isTieBreakStarted(),
+                firstPlayerTieBreakScore,
+                secondPlayerTieBreakScore
         );
     }
 }

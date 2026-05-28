@@ -16,14 +16,6 @@ public enum Point {
         this.score = score;
     }
 
-    public static Point fromValue(int value) {
-        for (Point p : Point.values()) {
-            if (p.score == value) {
-                return p;
-            }
-        }
-        throw new IllegalArgumentException("No such value");
-    }
     public Point next(){
         return switch (this){
             case LOVE -> FIFTEEN;

@@ -2,14 +2,11 @@ package TableTennis.model;
 
 import lombok.Getter;
 
+@Getter
 public class Game {
-    @Getter
     private Point firstPlayerPoint = Point.LOVE;
-    @Getter
     private Point secondPlayerPoint = Point.LOVE;
-    @Getter
     private PlayerNumber advantage;
-    @Getter
     private boolean isGameEnded;
 
     public Game(){

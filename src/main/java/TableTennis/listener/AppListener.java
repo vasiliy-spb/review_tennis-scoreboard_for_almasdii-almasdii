@@ -2,9 +2,13 @@ package TableTennis.listener;
 
 import TableTennis.dao.MatchDao;
 import TableTennis.dao.PlayerDao;
+import TableTennis.dao.hibernateImpl.hibernateMatchDaoImpl;
+import TableTennis.dao.hibernateImpl.hibernatePlayerDaoImpl;
 import TableTennis.entity.Player;
 import TableTennis.service.FinishedMatchesPersistenceService;
 import TableTennis.service.OngoingMatchesService;
+import TableTennis.service.PlayerService;
+import TableTennis.validator.MatchValidator;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;
@@ -21,16 +25,19 @@ public class AppListener implements ServletContextListener {
         configuration.configure();
         sessionFactory = configuration.buildSessionFactory();
 
-        PlayerDao playerDao = new PlayerDao(sessionFactory);
-        MatchDao matchDao = new MatchDao(sessionFactory);
+        PlayerDao playerDao = new hibernatePlayerDaoImpl(sessionFactory);
+        MatchDao matchDao = new hibernateMatchDaoImpl(sessionFactory);
 
 
         FinishedMatchesPersistenceService finishedMatchesPersistenceService =
-                new FinishedMatchesPersistenceService(matchDao,playerDao);
-
+                new FinishedMatchesPersistenceService(matchDao);
+        MatchValidator validator = new MatchValidator();
+        PlayerService playerService = new PlayerService(playerDao);
         OngoingMatchesService ongoingMatchesService = new OngoingMatchesService(
-                playerDao,
-                finishedMatchesPersistenceService);
+                finishedMatchesPersistenceService,
+                validator,
+                playerService);
+
         sce.getServletContext().setAttribute("OngoingMatchesService", ongoingMatchesService);
         sce.getServletContext().setAttribute("FinishedMatchesPersistenceService", finishedMatchesPersistenceService);
 

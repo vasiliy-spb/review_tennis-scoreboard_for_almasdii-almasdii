@@ -8,6 +8,10 @@ public record MatchScoreModel(
         int games1,
         int games2,
         int sets1,
-        int sets2
+        int sets2,
+        boolean isTieBreakStarted,
+        int firstPlayerTieBreakScore,
+        int secondPlayerTieBreakScore
 ) {
+
 }

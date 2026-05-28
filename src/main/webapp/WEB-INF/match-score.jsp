@@ -53,8 +53,8 @@
                     <td class="table-text">${requestScope.match.sets1()}</td>
                     <td class="table-text">${requestScope.match.games1()}</td>
                     <c:choose>
-                        <c:when test="${requestScope.matchModel.isTieBreakStarted()}">
-                            <td class="table-text">${requestScope.matchModel.firstPlayerTieBreakScore()}</td>
+                        <c:when test="${requestScope.match.isTieBreakStarted()}">
+                            <td class="table-text">${requestScope.match.firstPlayerTieBreakScore()}</td>
                         </c:when>
                         <c:otherwise>
                             <td class="table-text">${requestScope.match.point1()}</td>
@@ -73,8 +73,8 @@
                     <td class="table-text">${requestScope.match.sets2()}</td>
                     <td class="table-text">${requestScope.match.games2()}</td>
                     <c:choose>
-                        <c:when test="${requestScope.matchModel.isTieBreakStarted()}">
-                            <td class="table-text">${requestScope.matchModel.secondPlayerTieBreakScore()}</td>
+                        <c:when test="${requestScope.match.isTieBreakStarted()}">
+                            <td class="table-text">${requestScope.match.secondPlayerTieBreakScore()}</td>
                         </c:when>
                         <c:otherwise>
                             <td class="table-text">${requestScope.match.point2()}</td>

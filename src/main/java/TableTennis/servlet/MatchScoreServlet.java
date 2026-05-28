@@ -14,13 +14,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 @WebServlet("/match-score")
 @Slf4j
 public class MatchScoreServlet extends HttpServlet {
     private OngoingMatchesService ongoingMatchesService;
-    private final MatchScoreMapper matchScoreMapper = new MatchScoreMapper();
 
     @Override
     public void init(ServletConfig config) throws ServletException {
@@ -32,23 +32,15 @@ public class MatchScoreServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         String param = req.getParameter("uuid");
+        MatchScoreModel matchScoreModel = ongoingMatchesService.getMatchScoreById(UUID.fromString(param)).get();
+        log.debug("match from cache map : {}", matchScoreModel);
 
-        Match match = ongoingMatchesService.getById(UUID.fromString(param));
-        log.debug("match from cache map : {}",match);
-
-        MatchScoreModel matchScoreModel = matchScoreMapper.mapFrom(match);
         req.setAttribute("match", matchScoreModel);
-        req.setAttribute("matchModel",match);
         req.setAttribute("uuid", param);
 
 
-
         try {
-            if(match.isFinished()){
-                resp.sendRedirect("matches");
-            }else {
-                req.getRequestDispatcher(JspHelper.getPath("match-score")).forward(req, resp);
-            }
+            req.getRequestDispatcher(JspHelper.getPath("match-score")).forward(req, resp);
         } catch (ServletException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -59,10 +51,15 @@ public class MatchScoreServlet extends HttpServlet {
         String playerName = request.getParameter("player_name");
         UUID matchId = UUID.fromString(request.getParameter("uuid"));
 
-        ongoingMatchesService.wonPoint(matchId, playerName);
+        boolean isMatchFinished = ongoingMatchesService.wonPoint(matchId, playerName);
 
         try {
-            response.sendRedirect("/match-score?uuid=" + matchId);
+            if (isMatchFinished) {
+                response.sendRedirect(getServletContext().getContextPath() + "/matches");
+            } else {
+                response.sendRedirect(getServletContext().getContextPath() + "/match-score?uuid=" + matchId);
+            }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

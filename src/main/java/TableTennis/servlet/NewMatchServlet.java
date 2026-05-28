@@ -1,9 +1,10 @@
 package TableTennis.servlet;
 
+import TableTennis.Exception.BadRequestException;
 import TableTennis.dto.MatchRequest;
 import TableTennis.service.OngoingMatchesService;
 import TableTennis.utils.JspHelper;
-import TableTennis.utils.ValidatorUtil;
+import TableTennis.validator.MatchValidator;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -28,22 +29,15 @@ public class NewMatchServlet extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         this.service = (OngoingMatchesService) getServletContext().getAttribute("OngoingMatchesService");
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String firstPlayer = request.getParameter("playerOne");
         String secondPlayer = request.getParameter("playerTwo");
-
-
-        List<String> errors = ValidatorUtil.isNameCorrect(firstPlayer, secondPlayer);
-
-        if(!errors.isEmpty()){
-            Optional<String> reduce =
-                    errors.stream().reduce((a, b) -> a + "\n" + b);
-            response.sendError(400,reduce.get());
-            log.debug("Error sent : \n{}",reduce.get());
-            return;
+        if(firstPlayer == null || secondPlayer == null){
+            throw new BadRequestException("names are null");
         }
 
         log.debug("first player name : {} , second player name : {}",firstPlayer,secondPlayer);
@@ -51,7 +45,7 @@ public class NewMatchServlet extends HttpServlet {
         MatchRequest matchRequest = new MatchRequest(firstPlayer,secondPlayer);
         UUID uuid = service.createMatch(matchRequest);
 
-        response.sendRedirect("/match-score?uuid="+uuid);
+        response.sendRedirect(getServletContext().getContextPath() + "/match-score?uuid="+uuid);
     }
     @Override
     protected void doGet(HttpServletRequest request,HttpServletResponse response){
