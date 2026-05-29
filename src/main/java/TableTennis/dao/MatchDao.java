@@ -5,6 +5,6 @@ import TableTennis.entity.MatchEntity;
 import java.util.List;
 
 public interface MatchDao extends Dao<MatchEntity,Long> {
-    List<MatchView> findAllMatchesWithName(int pageNumber,int size,String playerName);
+    List<MatchView> findAllMatchesWithName();
 }
 

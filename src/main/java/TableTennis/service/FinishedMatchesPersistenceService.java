@@ -19,9 +19,9 @@ public class FinishedMatchesPersistenceService {
         matchDao.save(match);
     }
 
-    public List<MatchResponse> findAll(int pageNumber,int size,String playerName) {
-        validator.validatePage(pageNumber,size);
-        List<MatchView> matchViews = matchDao.findAllMatchesWithName(pageNumber,size,playerName);
+    public List<MatchResponse> findAll() {
+//        validator.validatePage(pageNumber,size);
+        List<MatchView> matchViews = matchDao.findAllMatchesWithName();
         return matchViews.stream().map(matchView ->
                 new MatchResponse(matchView.firstPlayerName(),
                         matchView.SecondPlayerName(),

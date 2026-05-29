@@ -62,9 +62,9 @@ public class OngoingMatchesService {
         boolean isMatchEnd = match.pointWonBy(player);
         log.debug("point won player : {} , for match : {} ",player,match);
         if(isMatchEnd){
-            MatchEntity matchEntity = new MatchEntity(match.getFirstPlayer().getId()
-                    ,match.getSecondPlayer().getId()
-                    ,match.getWinner().getId());
+            MatchEntity matchEntity = new MatchEntity(match.getFirstPlayer()
+                    ,match.getSecondPlayer()
+                    ,match.getWinner());
 
             log.debug("Match is saving : {}",matchEntity);
 
