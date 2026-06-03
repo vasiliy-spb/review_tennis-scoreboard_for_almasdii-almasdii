@@ -1,5 +1,6 @@
 package TableTennis.service;
 
+import TableTennis.Exception.BadRequestException;
 import TableTennis.Exception.MatchNotFoundException;
 import TableTennis.dto.MatchRequest;
 import TableTennis.dto.MatchScoreModel;
@@ -8,6 +9,7 @@ import TableTennis.mapper.MatchScoreMapper;
 import TableTennis.model.Match;
 import TableTennis.entity.Player;
 import TableTennis.validator.MatchValidator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -16,20 +18,13 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
+@RequiredArgsConstructor
 public class OngoingMatchesService {
     private final Map<UUID, Match> currentMatches = new ConcurrentHashMap<>();
+    private final MatchScoreMapper matchScoreMapper = new MatchScoreMapper();
     private final FinishedMatchesPersistenceService finishedMatchesPersistenceService;
     private final MatchValidator validator;
     private final PlayerService playerService;
-    private final MatchScoreMapper matchScoreMapper = new MatchScoreMapper();
-
-    public OngoingMatchesService(FinishedMatchesPersistenceService finishedMatchesPersistenceService
-            ,MatchValidator validator,PlayerService playerService){
-        this.finishedMatchesPersistenceService = finishedMatchesPersistenceService;
-        this.validator =  validator;
-        this.playerService = playerService;
-
-    }
 
     public UUID createMatch(MatchRequest request) {
         Player firstPlayer = playerService.findByNameOrCreate(request.firstPlayerName());
@@ -43,7 +38,9 @@ public class OngoingMatchesService {
         return uuid;
     }
     public Optional<MatchScoreModel> getMatchScoreById(UUID uuid){
-        validator.validateMatchId(uuid);
+        if(uuid == null){
+            throw new BadRequestException("Match UUid is null");
+        }
         Match match = currentMatches.get(uuid);
         if(match == null){
             throw new MatchNotFoundException("Match is not found");

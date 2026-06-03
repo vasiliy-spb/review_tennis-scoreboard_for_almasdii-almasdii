@@ -2,6 +2,7 @@ package TableTennis.validator;
 
 import TableTennis.Exception.BadRequestException;
 import TableTennis.Exception.MatchNotFoundException;
+import TableTennis.Exception.ValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,7 @@ import java.util.UUID;
 
 public class MatchValidator {
     public void validateNames(String first, String second) {
-
         List<String> errors = new ArrayList<>();
-
         if (first == null || second == null) {
             throw new BadRequestException("Names cannot be null");
         }
@@ -32,22 +31,26 @@ public class MatchValidator {
         }
 
         if (!errors.isEmpty()) {
-            throw new BadRequestException(String.join("\n", errors));
+            throw new ValidationException(String.join("\n", errors));
         }
     }
-    public void validateMatchId(UUID uuid){
+    public void validateFilterName(String name){
         List<String> errors = new ArrayList<>();
-        if(uuid == null){
-            errors.add("Uuid is null");
-            throw new MatchNotFoundException(String.join("\n",errors));
+        if(name == null){
+            return;
         }
+        if(name.length() > 20){
+            errors.add("name max size is 20");
+        }
+        if (!errors.isEmpty()) {
+            throw new ValidationException(String.join("\n", errors));
+        }
+
     }
-    public void validatePage(int page, int size) {
+    public void validatePage(int page) {
         if (page < 0) {
             throw new BadRequestException("Page cannot be negative");
         }
-        if (size <= 0 || size > 100) {
-            throw new BadRequestException("Invalid page size");
-        }
+
     }
 }

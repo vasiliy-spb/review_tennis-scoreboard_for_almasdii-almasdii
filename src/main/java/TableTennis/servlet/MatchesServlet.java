@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.hibernate.annotations.DialectOverride;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,23 +27,31 @@ public class MatchesServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp){
         String playerName = req.getParameter("filter_by_player_name");
-        int pageNumber = Integer.parseInt(req.getParameter("page_number"));
-        if(playerName != null & !playerName.isEmpty()){
-            req.setAttribute("filter_by_player_name",playerName);
-        }
-        if(pageNumber > 0){
-            req.setAttribute("page_number",pageNumber);
+        String pageNumberParam = req.getParameter("page");
+
+        int pageNumber = 0;
+        if(pageNumberParam != null){
+            pageNumber = Integer.parseInt(pageNumberParam);
         }
 
         List<MatchResponse> all =
-                finishedService.findAll(pageNumber,playerName);
-
-
+                finishedService.findAll(playerName,pageNumber);
+        int numberOfPages = finishedService.numberOfPages();
+        int pageSize = FinishedMatchesPersistenceService.DEFAULT_PAGE_SIZE;
         req.setAttribute("matches",all);
+        req.setAttribute("pageSize",pageSize);
+        req.setAttribute("pageNumber",pageNumber);
+        req.setAttribute("filterName",playerName);
+        req.setAttribute("numberOfPages",numberOfPages);
         try {
             req.getRequestDispatcher(JspHelper.getPath("matches")).forward(req,resp);
         } catch (ServletException | IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
     }
 }

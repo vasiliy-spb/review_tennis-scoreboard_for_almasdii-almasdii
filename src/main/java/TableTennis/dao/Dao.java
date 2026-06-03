@@ -1,6 +1,6 @@
 package TableTennis.dao;
 
-public interface Dao<K,ID> {
+public interface Dao<K> {
     K save(K entity);
 }
 

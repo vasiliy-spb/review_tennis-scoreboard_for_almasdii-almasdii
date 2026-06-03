@@ -1,5 +1,6 @@
 package TableTennis.servlet;
 
+import TableTennis.Exception.MatchNotFoundException;
 import TableTennis.dto.MatchScoreModel;
 import TableTennis.mapper.MatchScoreMapper;
 import TableTennis.model.Match;
@@ -31,12 +32,15 @@ public class MatchScoreServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        String param = req.getParameter("uuid");
-        MatchScoreModel matchScoreModel = ongoingMatchesService.getMatchScoreById(UUID.fromString(param)).get();
+        String matchUuid = req.getParameter("uuid");
+        MatchScoreModel matchScoreModel = ongoingMatchesService
+                .getMatchScoreById(UUID.fromString(matchUuid)).
+                orElseThrow(()->new MatchNotFoundException("Match does not exist")
+        );
         log.debug("match from cache map : {}", matchScoreModel);
 
         req.setAttribute("match", matchScoreModel);
-        req.setAttribute("uuid", param);
+        req.setAttribute("uuid", matchUuid);
 
 
         try {

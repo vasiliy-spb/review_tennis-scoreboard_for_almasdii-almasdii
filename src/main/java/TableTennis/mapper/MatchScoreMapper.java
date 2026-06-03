@@ -5,6 +5,7 @@ import TableTennis.model.Match;
 
 public class MatchScoreMapper implements Mapper<MatchScoreModel,Match>{
 
+
     @Override
     public MatchScoreModel mapFrom(Match match) {
         int firstPlayerTieBreakScore = 0;
