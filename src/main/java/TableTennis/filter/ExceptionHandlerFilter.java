@@ -29,29 +29,30 @@ public class ExceptionHandlerFilter implements Filter {
         }catch (PlayerSearchValidationException exception){
             httpServletResponse.setStatus(400);
             httpServletRequest.setAttribute("error", exception.getMessage());
+            log.debug("Error ",exception);
             httpServletRequest.getRequestDispatcher(JspHelper.getPath("matches")).forward(httpServletRequest, httpServletResponse);
         }
         catch (ValidationException exception) {
             httpServletResponse.setStatus(400);
             httpServletRequest.setAttribute("error", exception.getMessage());
+            log.debug("Error ",exception);
             httpServletRequest.getRequestDispatcher(JspHelper.getPath("new-match")).forward(httpServletRequest, httpServletResponse);
         } catch (BadRequestException exception) {
             httpServletResponse.setStatus(400);
             httpServletRequest.setAttribute("error", exception.getMessage());
+            log.debug("Error ",exception);
             httpServletRequest.getRequestDispatcher("/error").forward(httpServletRequest, httpServletResponse);
         } catch (MatchNotFoundException exception) {
             httpServletResponse.setStatus(404);
             httpServletRequest.setAttribute("error", exception.getMessage());
-            httpServletRequest.getRequestDispatcher(httpServletRequest.getContextPath() + "/error").forward(httpServletRequest, httpServletResponse);
-        } catch (DataBaseException exception) {
-            httpServletResponse.setStatus(500);
-            httpServletRequest.setAttribute("error", exception.getMessage());
-            httpServletRequest.getRequestDispatcher(httpServletRequest.getContextPath() + "/error").forward(httpServletRequest, httpServletResponse);
+            log.debug("Error ",exception);
+            httpServletRequest.getRequestDispatcher("/error").forward(httpServletRequest, httpServletResponse);
         } catch (Exception exception) {
             log.error("Exception ", exception);
             httpServletResponse.setStatus(500);
             httpServletRequest.setAttribute("error", exception.getMessage());
-            httpServletRequest.getRequestDispatcher(httpServletRequest.getContextPath() + "/error").forward(httpServletRequest, httpServletResponse);
+            log.debug("Error ",exception);
+            httpServletRequest.getRequestDispatcher("/error").forward(httpServletRequest, httpServletResponse);
         }
     }
 

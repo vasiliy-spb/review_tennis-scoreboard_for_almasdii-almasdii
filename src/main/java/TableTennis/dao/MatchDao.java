@@ -1,6 +1,7 @@
 package TableTennis.dao;
 
 import TableTennis.entity.MatchEntity;
+
 import java.util.List;
 
 public interface MatchDao extends Dao<MatchEntity> {

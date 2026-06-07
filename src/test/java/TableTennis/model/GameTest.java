@@ -1,8 +1,5 @@
 package TableTennis.model;
 
-import TableTennis.entity.Player;
-import net.bytebuddy.asm.MemberSubstitution;
-import org.eclipse.tags.shaded.org.apache.xpath.Arg;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -11,12 +8,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.stream.Stream;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-@Tag("unit")
 public class GameTest {
     private Game game;
 

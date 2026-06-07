@@ -2,12 +2,10 @@ package TableTennis.dao.hibernateImpl;
 
 import TableTennis.dao.MatchDao;
 import TableTennis.entity.MatchEntity;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;

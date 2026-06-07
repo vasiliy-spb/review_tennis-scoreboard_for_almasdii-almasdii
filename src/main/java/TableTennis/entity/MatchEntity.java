@@ -1,9 +1,9 @@
 package TableTennis.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
-
-import java.util.Objects;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 
 @Getter

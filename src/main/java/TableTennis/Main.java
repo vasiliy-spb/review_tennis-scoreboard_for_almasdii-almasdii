@@ -1,15 +1,4 @@
 package TableTennis;
-import TableTennis.dto.MatchScoreModel;
-import TableTennis.mapper.MatchScoreMapper;
-import TableTennis.model.Match;
-import TableTennis.entity.Player;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.Value;
-
-import java.util.Scanner;
-import java.util.UUID;
 
 public class Main {
     public static void main(String[] args) {

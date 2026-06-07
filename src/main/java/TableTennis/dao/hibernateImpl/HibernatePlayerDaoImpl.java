@@ -2,7 +2,6 @@ package TableTennis.dao.hibernateImpl;
 
 import TableTennis.dao.PlayerDao;
 import TableTennis.entity.Player;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

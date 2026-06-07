@@ -5,8 +5,6 @@ import TableTennis.entity.Player;
 import TableTennis.utils.TransactionManager;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 public class PlayerService {
     private final PlayerDao playerDao;

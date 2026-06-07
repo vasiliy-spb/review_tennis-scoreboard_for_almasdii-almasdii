@@ -1,17 +1,12 @@
 package TableTennis.model;
 
+import org.junit.jupiter.api.*;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import TableTennis.CallBacks.GlobalExtension;
-import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @Tag("unit")
-@ExtendWith({
-        GlobalExtension.class
-})
 public class TennisSetTest {
     private TennisSet tennisSet;
 
@@ -41,7 +36,7 @@ public class TennisSetTest {
     }
 
     @Test
-    void setContinueWhenSixAndFive(){
+    void setContinueWhenSixAndFive() {
         for (int i = 0; i < 5; i++) {
             winOneGame(PlayerNumber.FIRST_PLAYER);
             winOneGame(PlayerNumber.SECOND_PLAYER);
@@ -49,8 +44,9 @@ public class TennisSetTest {
         winOneGame(PlayerNumber.FIRST_PLAYER);
         assertThat(tennisSet.isSetFinished()).isFalse();
     }
+
     @Test
-    void setIsFinishedWhenSevenAndFive(){
+    void setIsFinishedWhenSevenAndFive() {
         for (int i = 0; i < 5; i++) {
             winOneGame(PlayerNumber.FIRST_PLAYER);
             winOneGame(PlayerNumber.SECOND_PLAYER);
@@ -73,7 +69,7 @@ public class TennisSetTest {
     @Nested
     @Tag("TieBreak logic")
     @DisplayName("TieBreak class")
-    class TieBreak{
+    class TieBreak {
 
         private void bringToTieBreak() {
             for (int i = 0; i < 5; i++) {
@@ -107,6 +103,7 @@ public class TennisSetTest {
                     .hasMessage("Tie break not started you cant get Tiebreaks score");
 
         }
+
         @Test
         void tieBreakStartsWhenBothPlayersGamesIsSix() {
             assertThat(tennisSet.isTieBreakStarted()).isFalse();
@@ -114,8 +111,9 @@ public class TennisSetTest {
             assertThat(tennisSet.isTieBreakStarted()).isTrue();
 
         }
+
         @Test
-        void returnFalseWhenTieBreakNotStarted(){
+        void returnFalseWhenTieBreakNotStarted() {
             assertThat(tennisSet.isTieBreakStarted()).isFalse();
             winOneSet(PlayerNumber.FIRST_PLAYER);
             assertThat(tennisSet.isTieBreakStarted()).isFalse();

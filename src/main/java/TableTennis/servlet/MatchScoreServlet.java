@@ -2,8 +2,6 @@ package TableTennis.servlet;
 
 import TableTennis.Exception.MatchNotFoundException;
 import TableTennis.dto.MatchScoreModel;
-import TableTennis.mapper.MatchScoreMapper;
-import TableTennis.model.Match;
 import TableTennis.service.OngoingMatchesService;
 import TableTennis.utils.JspHelper;
 import jakarta.servlet.ServletConfig;
@@ -15,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.Optional;
 import java.util.UUID;
 
 @WebServlet("/match-score")

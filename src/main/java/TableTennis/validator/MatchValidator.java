@@ -1,64 +1,67 @@
 package TableTennis.validator;
 
 import TableTennis.Exception.BadRequestException;
-import TableTennis.Exception.MatchNotFoundException;
 import TableTennis.Exception.PlayerSearchValidationException;
 import TableTennis.Exception.ValidationException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class MatchValidator {
     public void validateNames(String firstPlayerName, String secondPlayerName) {
         List<String> errors = new ArrayList<>();
+
         if (firstPlayerName == null || secondPlayerName == null) {
-            throw new BadRequestException("Names cannot be null");
-        }
-        if(firstPlayerName.isEmpty() || secondPlayerName.isEmpty()){
-            errors.add("names cannot be empty");
+            throw new BadRequestException("Player names must not be null");
         }
 
-        if(!firstPlayerName.matches("^[A-Z]{1}[a-z]+")){
-            errors.add("first player name : name should start from capital letter");
-        }
-        if(!secondPlayerName.matches("^[A-Z]{1}[a-z]+")){
-            errors.add("second player name : name should start from capital letter");
+        if (firstPlayerName.isEmpty() || secondPlayerName.isEmpty()) {
+            errors.add("Player names must not be empty");
         }
 
-        if (!firstPlayerName.matches("^[a-zA-Zа-яА-ЯёЁ]+$")) {
-            errors.add("first player name : allowed letters a-b A-Z а-я А-Я ёЁ");
+        if (!firstPlayerName.matches("^[A-Z]{1}[a-z]+")) {
+            errors.add("First player name must start with a capital letter, No spaces are allowed");
         }
 
-        if (!secondPlayerName.matches("^[a-zA-Zа-яА-ЯёЁ]+$")) {
-            errors.add("second player name : allowed letters a-b A-Z а-я А-Я ёЁ");
+        if (!secondPlayerName.matches("^[A-Z]{1}[a-z]+")) {
+            errors.add("Second player name must start with a capital letter, No spaces are allowed");
+        }
+
+        if (!firstPlayerName.matches("^[a-zA-Z]+$")) {
+            errors.add("First player name must contain only letters (A-Z, a-z)");
+        }
+
+        if (!secondPlayerName.matches("^[a-zA-Z]+$")) {
+            errors.add("Second player name must contain only letters (A-Z, a-z)");
         }
 
         if (firstPlayerName.equalsIgnoreCase(secondPlayerName)) {
-            errors.add("must be different");
+            errors.add("Players must be different");
         }
 
         if (!errors.isEmpty()) {
-            throw new ValidationException(String.join("\n ", errors));
+            throw new ValidationException(String.join("\n", errors));
         }
     }
-    public void validateFilterName(String name){
-        List<String> errors = new ArrayList<>();
-        if(name == null){
+
+    public void validateFilterName(String name) {
+        if (name == null) {
             return;
         }
-        if(name.length() > 20){
-            errors.add("name max size is 20");
+        List<String> errors = new ArrayList<>();
+
+        if (name.length() > 20) {
+            errors.add("Player name must not exceed 20 characters");
         }
+
         if (!errors.isEmpty()) {
             throw new PlayerSearchValidationException(String.join("\n", errors));
         }
-
     }
+
     public void validatePage(int page) {
         if (page < 0) {
-            throw new BadRequestException("Page cannot be negative");
+            throw new BadRequestException("Page number must not be negative");
         }
-
     }
 }

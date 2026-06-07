@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Getter
 public class Match {
-    @Getter private UUID id;
+    @Getter private final UUID id;
     @Getter private final Player firstPlayer;
     @Getter private final Player secondPlayer;
     @Getter private Player winner;
@@ -40,20 +40,22 @@ public class Match {
         boolean isSetWon = currentSet.pointWonBy(playerNumber);
 
         if(isSetWon){
-            if(playerNumber == PlayerNumber.FIRST_PLAYER) firstPlayerSets++;
-            else secondPlayerSets++;
-
-            if(firstPlayerSets >= WIN_SCORE) winner = firstPlayer;
-            else if(secondPlayerSets >= WIN_SCORE) winner = secondPlayer;
-            else currentSet = new TennisSet();
+            nextSet(playerNumber);
         }
 
         return isFinished();
 
     }
+    private void nextSet(PlayerNumber playerNumber){
+        if(playerNumber == PlayerNumber.FIRST_PLAYER) firstPlayerSets++;
+        else secondPlayerSets++;
+
+        if(firstPlayerSets >= WIN_SCORE) winner = firstPlayer;
+        else if(secondPlayerSets >= WIN_SCORE) winner = secondPlayer;
+        else currentSet = new TennisSet();
+    }
     public boolean isFinished(){
-        if(winner != null) return true;
-        return false;
+        return winner != null;
     }
     public int getFirstPlayerGames(){
         return currentSet.getFirstPlayerGames();

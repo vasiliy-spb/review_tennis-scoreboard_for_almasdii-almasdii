@@ -5,9 +5,9 @@ import TableTennis.Exception.MatchNotFoundException;
 import TableTennis.dto.MatchRequest;
 import TableTennis.dto.MatchScoreModel;
 import TableTennis.entity.MatchEntity;
+import TableTennis.entity.Player;
 import TableTennis.mapper.MatchScoreMapper;
 import TableTennis.model.Match;
-import TableTennis.entity.Player;
 import TableTennis.utils.TransactionManager;
 import TableTennis.validator.MatchValidator;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +54,17 @@ public class OngoingMatchesService {
         return Optional.ofNullable(matchScoreModel);
     }
 
+    private void saveCurrentMatch(Match match,UUID matchId){
+        MatchEntity matchEntity = new MatchEntity(match.getFirstPlayer()
+                ,match.getSecondPlayer()
+                ,match.getWinner());
+
+        log.debug("Match is saving : {}",matchEntity);
+
+        finishedMatchesPersistenceService.save(matchEntity);
+        currentMatches.remove(matchId);
+    }
+
     public boolean wonPoint(UUID matchId, String playerName) {
         Player player = transactionManager.doInTransaction(() -> {
             return playerService.findByNameOrCreate(playerName);
@@ -63,18 +74,11 @@ public class OngoingMatchesService {
         if(match == null){
             throw new MatchNotFoundException("Match is not found");
         }
-
         boolean isMatchEnd = match.pointWonBy(player);
         log.debug("point won player : {} , for match : {} ",player,match);
+
         if(isMatchEnd){
-            MatchEntity matchEntity = new MatchEntity(match.getFirstPlayer()
-                    ,match.getSecondPlayer()
-                    ,match.getWinner());
-
-            log.debug("Match is saving : {}",matchEntity);
-
-            finishedMatchesPersistenceService.save(matchEntity);
-            currentMatches.remove(matchId);
+            saveCurrentMatch(match,matchId);
         }
         return isMatchEnd;
     }

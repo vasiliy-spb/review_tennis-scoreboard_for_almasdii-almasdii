@@ -18,34 +18,43 @@ public class TennisSet {
             throw new IllegalStateException("Set is already finished");
         }
         if(isTieBreakStarted()){
-            boolean isFinished = tieBreak.pointWonBy(playerNumber);
-            if (isFinished){
-                if(playerNumber == PlayerNumber.FIRST_PLAYER){
-                    firstPlayerGames++;
-                }
-                else {
-                    secondPlayerGames++;
-                }
-                return isSetFinished();
-            }
-            return false;
+            return tieBreakCase(playerNumber);
         }
+
         boolean isGameWon = game.pointWonBy(playerNumber);
         if(isGameWon){
+            nextGame(playerNumber);
+        }
+        if(firstPlayerGames == WIN_SCORE && secondPlayerGames == WIN_SCORE){
+            tieBreak = new TieBreak();
+        }
+        return isSetFinished();
+    }
+
+    private void nextGame(PlayerNumber playerNumber){
+        if(playerNumber == PlayerNumber.FIRST_PLAYER){
+            firstPlayerGames++;
+        }
+        else {
+            secondPlayerGames++;
+        }
+        if (!isSetFinished()) {
+            game = new Game();
+        }
+    }
+
+    private boolean tieBreakCase(PlayerNumber playerNumber){
+        boolean isFinished = tieBreak.pointWonBy(playerNumber);
+        if (isFinished){
             if(playerNumber == PlayerNumber.FIRST_PLAYER){
                 firstPlayerGames++;
             }
             else {
                 secondPlayerGames++;
             }
-            if (!isSetFinished()) {
-                game = new Game();
-            }
+            return isSetFinished();
         }
-        if(firstPlayerGames == WIN_SCORE && secondPlayerGames == WIN_SCORE){
-            tieBreak = new TieBreak();
-        }
-        return isSetFinished();
+        return false;
     }
 
     protected boolean isSetFinished(){

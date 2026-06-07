@@ -1,15 +1,8 @@
 package TableTennis;
 
-import TableTennis.entity.Player;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-import org.slf4j.LoggerFactory;
 
-import java.lang.management.PlatformLoggingMXBean;
-import java.sql.*;
-import java.util.logging.Logger;
+import java.sql.SQLException;
 
 @Slf4j
 public class Main2 {

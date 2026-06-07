@@ -10,7 +10,6 @@ import TableTennis.service.OngoingMatchesService;
 import TableTennis.service.PlayerService;
 import TableTennis.utils.TransactionManager;
 import TableTennis.validator.MatchValidator;
-import jakarta.persistence.EntityManager;
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.annotation.WebListener;

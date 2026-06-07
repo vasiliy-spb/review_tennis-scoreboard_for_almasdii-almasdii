@@ -4,7 +4,6 @@ import TableTennis.Exception.BadRequestException;
 import TableTennis.dto.MatchRequest;
 import TableTennis.service.OngoingMatchesService;
 import TableTennis.utils.JspHelper;
-import TableTennis.validator.MatchValidator;
 import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,8 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Slf4j
@@ -37,12 +34,14 @@ public class NewMatchServlet extends HttpServlet {
         String firstPlayerName = request.getParameter("playerOne");
         String secondPlayerName = request.getParameter("playerTwo");
 
-        request.setAttribute("firstPlayerName",firstPlayerName);
-        request.setAttribute("secondPlayerName",secondPlayerName);
 
         if(firstPlayerName == null || secondPlayerName == null){
             throw new BadRequestException("names are null");
         }
+        firstPlayerName = firstPlayerName.trim();
+        secondPlayerName = secondPlayerName.trim();
+        request.setAttribute("firstPlayerName",firstPlayerName);
+        request.setAttribute("secondPlayerName",secondPlayerName);
 
         log.info("first player name : {} , second player name : {}",firstPlayerName,secondPlayerName);
 

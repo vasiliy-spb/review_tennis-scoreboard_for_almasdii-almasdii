@@ -37,9 +37,11 @@
                 <form method="post" action="${pageContext.request.contextPath}/new-match">
                     <p style="color: #7f3d3d;">Sample error message</p>
                     <label class="label-player" for="playerOne">Player one</label>
-                    <input class="input-player" placeholder="Name" value="${requestScope.firstPlayerName}" type="text" required title="Enter a name" id="playerOne" name="playerOne">
+                    <input class="input-player" placeholder="Name" value="${requestScope.firstPlayerName}" type="text"
+                           required title="Enter a name" id="playerOne" name="playerOne">
                     <label class="label-player" for="playerTwo">Player two</label>
-                    <input class="input-player" placeholder="Name" value="${requestScope.secondPlayerName}" type="text" required title="Enter a name" id="playerTwo" name="playerTwo">
+                    <input class="input-player" placeholder="Name" value="${requestScope.secondPlayerName}" type="text"
+                           required title="Enter a name" id="playerTwo" name="playerTwo">
                     <input class="form-button" type="submit" value="Start">
                     <br>
                     <c:if test="${requestScope.error != null}">
@@ -52,7 +54,8 @@
 </main>
 <footer>
     <div class="footer">
-        <p>&copy; Tennis Scoreboard, project from <a href="https://zhukovsd.github.io/java-backend-learning-course/">zhukovsd/java-backend-learning-course</a> roadmap.</p>
+        <p>&copy; Tennis Scoreboard, project from <a href="https://zhukovsd.github.io/java-backend-learning-course/">zhukovsd/java-backend-learning-course</a>
+            roadmap.</p>
     </div>
 </footer>
 </body>
