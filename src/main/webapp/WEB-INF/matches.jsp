@@ -63,7 +63,7 @@
                 <th>Player Two</th>
                 <th>Winner</th>
             </tr>
-            <c:forEach var="match" items="${requestScope.matches}">
+            <c:forEach var="match" items="${requestScope.paginationDto.currentPageMatches()}">
                 <tr>
                     <th>${match.firstPlayerName()}</th>
                     <th>${match.secondPlayerName()}</th>
@@ -72,21 +72,21 @@
             </c:forEach>
         </table>
 
-        <c:if test="${requestScope.numberOfPages > 0}">
+        <c:if test="${requestScope.paginationDto.numberOfPages() > 0}">
             <div class="pagination">
 
-                <c:if test="${requestScope.pageNumber > 0}">
+                <c:if test="${requestScope.paginationDto.currentPage() > 0}">
                     <a class="prev"
-                       href="${pageContext.request.contextPath}/matches?page=${requestScope.pageNumber-1}&filter_by_player_name=${requestScope.playerName}">
+                       href="${pageContext.request.contextPath}/matches?page=${requestScope.paginationDto.currentPage()-1}&filter_by_player_name=${requestScope.playerName}">
                         < </a>
                 </c:if>
-                <c:forEach var="index" begin="0" end="${requestScope.numberOfPages-1}">
-                    <a class="num-page ${index == requestScope.pageNumber ? 'current' : ''}"
-                       href="${pageContext.request.contextPath}/matches?page=${index}&filter_by_player_name=${requestScope.playerName}">${index}</a>
+                <c:forEach var="index" begin="0" end="${requestScope.paginationDto.numberOfPages()-1}">
+                    <a class="num-page ${index == requestScope.paginationDto.currentPage() ? 'current' : ''}"
+                       href="${pageContext.request.contextPath}/matches?page=${index}&filter_by_player_name=${requestScope.playerName}">${index+1}</a>
                 </c:forEach>
-                <c:if test="${requestScope.pageNumber < requestScope.numberOfPages-1}">
+                <c:if test="${requestScope.paginationDto.currentPage() < requestScope.paginationDto.numberOfPages()-1}">
                     <a class="next"
-                       href="${pageContext.request.contextPath}/matches?page=${requestScope.pageNumber+1}&filter_by_player_name=${requestScope.playerName}">
+                       href="${pageContext.request.contextPath}/matches?page=${requestScope.paginationDto.currentPage()+1}&filter_by_player_name=${requestScope.playerName}">
                         > </a>
                 </c:if>
             </div>

@@ -67,7 +67,6 @@ public class HibernateMatchDaoImpl implements MatchDao {
         Long singleResult = currentSession.createQuery(TOTAL_NUMBER_OF_MATCHES, Long.class).getSingleResult();
         log.debug("total matches : {} ", singleResult);
         return singleResult;
-
     }
 
     @Override

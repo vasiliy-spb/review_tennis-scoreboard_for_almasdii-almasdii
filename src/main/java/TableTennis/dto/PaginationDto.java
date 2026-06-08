@@ -1,14 +1,6 @@
 package TableTennis.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
 
-@Getter
-@RequiredArgsConstructor
-public class PaginationDto<T> {
-    private List<T> matches;
-    private int numberOfPages;
+public record PaginationDto(List<MatchResponse> currentPageMatches, int numberOfPages, int currentPage, int pageSize) {
 }

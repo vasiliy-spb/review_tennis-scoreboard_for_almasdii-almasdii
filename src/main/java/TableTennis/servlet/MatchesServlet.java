@@ -1,6 +1,7 @@
 package TableTennis.servlet;
 
 import TableTennis.dto.MatchResponse;
+import TableTennis.dto.PaginationDto;
 import TableTennis.service.FinishedMatchesPersistenceService;
 import TableTennis.utils.JspHelper;
 import jakarta.servlet.ServletConfig;
@@ -36,17 +37,11 @@ public class MatchesServlet extends HttpServlet {
         }
         log.debug("pageNumber : {} ",pageNumber);
 
-        List<MatchResponse> currentPageMatches =
-                finishedService.findAll(playerName,pageNumber);
+        PaginationDto paginationDto = finishedService.findAll(playerName, pageNumber);
+        log.debug("number of pages : {}",paginationDto.numberOfPages());
 
-        int numberOfPages = finishedService.numberOfPages();
-        log.debug("number of pages : {}",numberOfPages);
-        int pageSize = FinishedMatchesPersistenceService.DEFAULT_PAGE_SIZE;
-        req.setAttribute("matches",currentPageMatches);
-        req.setAttribute("pageSize",pageSize);
-        req.setAttribute("pageNumber",pageNumber);
+        req.setAttribute("paginationDto",paginationDto);
         req.setAttribute("filterName",playerName);
-        req.setAttribute("numberOfPages",numberOfPages);
         req.getRequestDispatcher(JspHelper.getPath("matches")).forward(req,resp);
     }
 }
