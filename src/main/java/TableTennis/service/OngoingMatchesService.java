@@ -3,7 +3,7 @@ package TableTennis.service;
 import TableTennis.Exception.BadRequestException;
 import TableTennis.Exception.MatchNotFoundException;
 import TableTennis.dto.MatchRequest;
-import TableTennis.dto.MatchScoreModel;
+import TableTennis.dto.MatchScoreDto;
 import TableTennis.entity.MatchEntity;
 import TableTennis.entity.Player;
 import TableTennis.mapper.MatchScoreMapper;
@@ -42,7 +42,7 @@ public class OngoingMatchesService {
             return uuid;
         });
     }
-    public Optional<MatchScoreModel> getMatchScoreById(UUID uuid){
+    public Optional<MatchScoreDto> getMatchScoreById(UUID uuid){
         if(uuid == null){
             throw new BadRequestException("Match UUid is null");
         }
@@ -50,8 +50,8 @@ public class OngoingMatchesService {
         if(match == null){
             throw new MatchNotFoundException("Match is not found");
         }
-        MatchScoreModel matchScoreModel = matchScoreMapper.mapFrom(match);
-        return Optional.ofNullable(matchScoreModel);
+        MatchScoreDto matchScoreDto = matchScoreMapper.mapFrom(match);
+        return Optional.ofNullable(matchScoreDto);
     }
 
     private void saveCurrentMatch(Match match,UUID matchId){

@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public class TieBreak {
+    public static final int WIN_SCORE = 7;
     private int firstPlayerScore;
     private int secondPlayerScore;
-    public static final int WIN_SCORE = 7;
 
 
     protected boolean pointWonBy(PlayerNumber playerNumber){

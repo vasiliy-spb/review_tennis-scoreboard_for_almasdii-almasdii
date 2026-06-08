@@ -12,11 +12,7 @@ import java.io.IOException;
 @WebServlet("")
 public class BaseServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp){
-        try {
-            req.getRequestDispatcher(JspHelper.getPath("index")).forward(req,resp);
-        } catch (IOException | ServletException e) {
-            throw new RuntimeException(e);
-        }
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher(JspHelper.getPath("index")).forward(req,resp);
     }
 }

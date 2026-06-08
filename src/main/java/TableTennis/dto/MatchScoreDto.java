@@ -1,6 +1,6 @@
 package TableTennis.dto;
 
-public record MatchScoreModel(
+public record MatchScoreDto(
         String firstPlayerName,
         String secondPlayerName,
         int point1,
@@ -13,5 +13,4 @@ public record MatchScoreModel(
         int firstPlayerTieBreakScore,
         int secondPlayerTieBreakScore
 ) {
-
 }

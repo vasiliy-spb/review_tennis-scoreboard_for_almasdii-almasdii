@@ -7,14 +7,14 @@ import java.util.UUID;
 
 @Getter
 public class Match {
+    private final static int WIN_SCORE = 2;
+    private TennisSet currentSet;
     @Getter private final UUID id;
     @Getter private final Player firstPlayer;
     @Getter private final Player secondPlayer;
     @Getter private Player winner;
     @Getter private int firstPlayerSets;
     @Getter private int secondPlayerSets;
-    private TennisSet currentSet;
-    private final static int WIN_SCORE = 2;
 
     
     public Match(UUID id,Player firstPlayer, Player secondPlayer){

@@ -3,13 +3,13 @@ package TableTennis.model;
 import lombok.Getter;
 
 public class TennisSet {
+    public static final int WIN_SCORE = 6;
+    public static final int TAI_BREAK_WIN_SCORE = 7;
+    public static final int WIN_DIFF = 2;
     @Getter private int firstPlayerGames;
     @Getter private int secondPlayerGames;
     private Game game;
     private TieBreak tieBreak;
-    public static final int WIN_SCORE = 6;
-    public static final int TAI_BREAK_WIN_SCORE = 7;
-    public static final int WIN_DIFF = 2;
     public TennisSet(){
         game = new Game();
     }
