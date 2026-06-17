@@ -1,3 +1,5 @@
+### [Ревью на реализацию проекта находится здесь](https://github.com/vasiliy-spb/review_tennis-scoreboard_for_almasdii-almasdii/blob/code-review/code-review/REVIEW_README.md)
+
 # 🎾 Tennis Scoreboard
 
 A web application for tracking tennis match scores in real time.
