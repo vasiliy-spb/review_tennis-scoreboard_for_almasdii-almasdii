@@ -84,6 +84,8 @@
             </c:forEach>
         </table>
 
+        <!-- Цикл от 0 до numberOfPages отображает сразу все существующие страницы.
+                Лучше сделать окно пагинации ограниченным текущей страницей +-2 вокруг неё -->
         <c:if test="${requestScope.paginationDto.numberOfPages() > 0}">
 
             <c:choose>

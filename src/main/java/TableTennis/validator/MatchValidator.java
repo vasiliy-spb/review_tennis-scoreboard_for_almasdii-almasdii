@@ -8,6 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MatchValidator {
+
+    // Все повторяющиеся или важные строковые и числовые литералы лучше выносить в `private static final` константы с понятными именами.
+        // Именованная константа делает код более семантически понятным.
+
+    // Класс нарушает Принцип единой ответственности (SRP) — объединяет в себе логику валидации для трёх разных бизнес-сценариев.
+        // Более чистым решением с точки зрения архитектуры было бы разделение на более мелкие и сфокусированные валидаторы.
+
+    // Несколько проверок дублируются для каждого имени — стоит вынести их в отдельные методы
     public void validateNames(String firstPlayerName, String secondPlayerName) {
         List<String> errors = new ArrayList<>();
 
@@ -48,9 +56,13 @@ public class MatchValidator {
         if (name == null) {
             return;
         }
+
+        // Нет необходимости создавать список ради одного сообщения
         List<String> errors = new ArrayList<>();
 
         if (name.length() > 20) {
+
+            // Здесь можно сразу бросать исключение
             errors.add("Player name must not exceed 20 characters");
         }
 

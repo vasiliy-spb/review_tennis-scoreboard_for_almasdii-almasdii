@@ -18,10 +18,16 @@ import java.util.List;
 @Slf4j
 @WebServlet("/matches")
 public class MatchesServlet extends HttpServlet {
+
+    // Все повторяющиеся или важные строковые литералы лучше выносить в `private static final` константы с понятными именами.
+        // Именованная константа делает код более семантически понятным.
+
     private FinishedMatchesPersistenceService finishedService;
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
+
+        // Для получения объектов из контекста можно использовать "естественные константы" — ClassName.class.getSimpleName() или ClassName.class.getName()
         this.finishedService = (FinishedMatchesPersistenceService) getServletContext().getAttribute("FinishedMatchesPersistenceService");
 
     }
@@ -33,6 +39,8 @@ public class MatchesServlet extends HttpServlet {
 
         int pageNumber = 0;
         if(pageNumberParam != null){
+
+            // Нет обработки исключений при Integer.parseInt(), поэтому в случае ошибки клиент получит ошибку 500 (INTERNAL_SERVER_ERROR), хотя это 400 (BAD_REQUEST)
             pageNumber = Integer.parseInt(pageNumberParam);
         }
         log.debug("pageNumber : {} ",pageNumber);

@@ -12,6 +12,9 @@ import static org.assertj.core.api.SoftAssertions.assertSoftly;
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @Tag("unit")
 public class MatchTest {
+
+    // Тестирование основной бизнес-логики должно быть возможным без классов JPA Entity
+
     private Match match;
     private Player firstPlayer;
     private Player secondPlayer;

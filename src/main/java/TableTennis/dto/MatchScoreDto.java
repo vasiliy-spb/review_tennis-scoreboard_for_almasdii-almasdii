@@ -1,6 +1,9 @@
 package TableTennis.dto;
 
 public record MatchScoreDto(
+
+        // Числительные в полях для счёта тоже можно писать словами (а не цифрами)
+
         String firstPlayerName,
         String secondPlayerName,
         int point1,

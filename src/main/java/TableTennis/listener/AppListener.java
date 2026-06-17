@@ -18,10 +18,16 @@ import org.hibernate.cfg.Configuration;
 
 @WebListener
 public class AppListener implements ServletContextListener {
+
+    // Отсутствует явный модификатор доступа
     SessionFactory sessionFactory;
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         Configuration configuration = new Configuration();
+
+        // Добавляется только Player, но не MatchEntity. Это нарушает принцип единого источника истины и может сбить с толку.
+            // (см. файл "ssot-principle.md" в этом же пакете)
+            // Оба класса сущностей уже обрабатываются в hibernate.cfg.xml, поэтому нет необходимости дублировать их добавление здесь.
         configuration.addAnnotatedClass(Player.class);
         configuration.configure();
         sessionFactory = configuration.buildSessionFactory();
@@ -44,6 +50,7 @@ public class AppListener implements ServletContextListener {
                 playerService,
                 transactionManager);
 
+        // Для помещения объектов в контекст можно использовать "естественные константы" — ClassName.class.getSimpleName() или ClassName.class.getName()
         sce.getServletContext().setAttribute("OngoingMatchesService", ongoingMatchesService);
         sce.getServletContext().setAttribute("FinishedMatchesPersistenceService", finishedMatchesPersistenceService);
 
@@ -53,6 +60,7 @@ public class AppListener implements ServletContextListener {
     public void contextDestroyed(ServletContextEvent sce) {
         ServletContextListener.super.contextDestroyed(sce);
 
+        // Стоит проверить, что sessionFactory != null
         sessionFactory.close();
     }
 }

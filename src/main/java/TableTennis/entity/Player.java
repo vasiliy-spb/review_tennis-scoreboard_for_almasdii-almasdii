@@ -10,9 +10,10 @@ import lombok.*;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@EqualsAndHashCode(of = {"name"}, callSuper = false)
-@ToString
-@Table(name = "players")
+@EqualsAndHashCode(of = {"name"}, callSuper = false) // Если equals и hashCode не используются в проекте, их можно не переопределять.
+@ToString // Использование @ToString с @Entity может создавать проблемы (см. файл "tostring-entity.md" в этом же пакете),
+            // поэтому если он не используется в проекте, его можно не переопределять.
+@Table(name = "players") // можно задать индекс через аннотацию, чтобы у него было понятное имя — @Table(name = "players", indexes = @Index(...))
 @Entity
 public class Player extends BaseEntity<Long>{
 

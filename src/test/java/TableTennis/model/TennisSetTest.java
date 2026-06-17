@@ -8,6 +8,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 @Tag("unit")
 public class TennisSetTest {
+
+    // В идеале придерживаться принципа "один тест — одна проверка"
+
+    // Можно вводить вспомогательные методы для настройки состояний
+
+    // Для большей наглядности можно в каждом методе использовать @DisplayName
+
+    // Класс тестирует не только сет (о чём говорит его название), но и гейм и тай-брейк. Лучше делать это в разных классах.
+
     private TennisSet tennisSet;
 
     @BeforeEach
@@ -67,7 +76,7 @@ public class TennisSetTest {
     }
 
     @Nested
-    @Tag("TieBreak logic")
+    @Tag("TieBreak logic") // Теги в JUnit 5 не могут содержать пробелы, поэтому сейчас при запуске этих тестов в консоли видно сообщение о некорректном синтаксисе. Можно использовать kebab-case.
     @DisplayName("TieBreak class")
     class TieBreak {
 

@@ -7,6 +7,7 @@
         </encoder>
     </appender>
 
+<!-- Как и из кода, комментарии из файлов конфигурации стоит удалять перед коммитом -->
 <!--    <logger name="org.hibernate.SQL" level="DEBUG"/>-->
 
     <logger name="org.hibernate.orm.jdbc.bind" level="DEBUG"/>

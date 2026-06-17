@@ -1,3 +1,5 @@
+<!-- Как и из кода, комментарии из файлов конфигурации стоит удалять перед коммитом -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -7,6 +9,7 @@
   <version>1.0-SNAPSHOT</version>
   <name>tennis Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  <!-- Версии зависимостей (особенно повторяющиеся) лучше вынести в properties -->
   <dependencies>
     <dependency>
       <groupId>org.postgresql</groupId>
@@ -28,12 +31,15 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
+      <!-- Alpha и milestone версии программного обеспечения являются предварительными выпусками.
+      Лучше использовать стабильные (GA - General Availability) версии зависимостей. -->
       <version>4.0.0-M1</version>
     </dependency>
     <!-- Source: https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-52 -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
+      <!-- Используются разные версии junit -->
       <version>6.1.0-M1</version>
       <scope>test</scope>
     </dependency>
@@ -96,12 +102,14 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+      <!-- Используются разные версии junit -->
       <version>6.0.3</version>
       <scope>test</scope>
     </dependency>
 
     <!-- Source: https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-slf4j-impl -->
 
+    <!-- В этой версии зависимости обнаружена уязвимость -->
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
@@ -113,6 +121,7 @@
       <version>1.6.3</version>
     </dependency>
     <dependency>
+      <!-- По умолчанию значение scope — compile, а должен быть здесь provided -->
       <groupId>jakarta.servlet</groupId>
       <artifactId>jakarta.servlet-api</artifactId>
       <version>6.1.0</version>
@@ -122,9 +131,11 @@
     <finalName>tennis</finalName>
     <plugins>
       <plugin>
+        <!-- Стоит явно указать версию плагина -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
+          <!-- Лучше использовать LTS версию Java -->
           <source>16</source>
           <target>16</target>
         </configuration>

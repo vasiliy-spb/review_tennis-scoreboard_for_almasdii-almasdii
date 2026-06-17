@@ -7,6 +7,19 @@ import java.util.UUID;
 
 @Getter
 public class Match {
+
+    // TODO: Класс хранит ссылки на JPA-сущности (`Player`). Использование объектов JPA Entity в доменной логике
+        // создаёт прямую зависимость доменного слоя от слоя персистентности (долговременного хранения данных)
+        // и смешивает слои приложения, что нарушает чистоту архитектуры.
+        // Это может привести к проблемам с ленивой загрузкой (`LazyInitializationException`)
+        // или к неожиданным изменениям в базе данных, если состояние `Player` будет изменено в ходе бизнес-логики.
+        // Доменные модели должны оперировать другими доменными моделями, а не сущностями, привязанными к базе данных.
+        // (см. файл "model-types.md" в этом же пакете)
+
+    // Методы класса нарушают принцип разделения команд и запросов (Command-Query Separation).
+        // Который гласит, что метод должен либо изменять состояние (команда), либо возвращать данные (запрос),
+        // но не делать и то, и другое. Смешение этих обязанностей усложняет код, его тестирование и понимание.
+
     private final static int WIN_SCORE = 2;
     private TennisSet currentSet;
     @Getter private final UUID id;
@@ -24,6 +37,7 @@ public class Match {
         currentSet = new TennisSet();
     }
 
+    // Метод нарушает принцип разделения команд и запросов (Command-Query Separation).
     public boolean pointWonBy(Player player){
         if(isFinished()){
             throw new IllegalStateException("Match is already finished");
@@ -46,6 +60,8 @@ public class Match {
         return isFinished();
 
     }
+
+    // Тела блоков if-else всегда нужно оборачивать в {}
     private void nextSet(PlayerNumber playerNumber){
         if(playerNumber == PlayerNumber.FIRST_PLAYER) firstPlayerSets++;
         else secondPlayerSets++;
@@ -69,9 +85,13 @@ public class Match {
     public int getSecondPlayerPoints(){
         return currentSet.getSecondPlayerPoints().getScore();
     }
+
+    // В java принято называть методы глаголами: getFirstPlayerTieBreakScore
     public int firstPlayerTieBreakScore(){
         return currentSet.firstPlayerTieBreakScore();
     }
+
+    // В java принято называть методы глаголами: getSecondPlayerTieBreakScore
     public int secondPlayerTieBreakScore(){
         return currentSet.secondPlayerTieBreakScore();
     }

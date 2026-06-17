@@ -12,6 +12,7 @@ public enum Point {
 
     private final int score;
 
+    // Можно использовать @RequiredArgsConstructor
     Point(int score) {
         this.score = score;
     }
@@ -21,7 +22,7 @@ public enum Point {
             case LOVE -> FIFTEEN;
             case FIFTEEN -> THIRTY;
             case THIRTY -> FORTY;
-            case FORTY -> throw new IllegalArgumentException("asdfgh");
+            case FORTY -> throw new IllegalArgumentException("asdfgh"); // Лучше использовать информативные сообщения в исключениях.
 
         };
     }

@@ -13,6 +13,13 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class GameTest {
+
+    // В идеале придерживаться принципа "один тест — одна проверка"
+
+    // Можно вводить вспомогательные методы для настройки состояний (например, доведения до deuce)
+
+    // Для большей наглядности можно в каждом методе использовать @DisplayName
+
     private Game game;
 
     @BeforeEach
